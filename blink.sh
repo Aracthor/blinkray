@@ -1,10 +1,6 @@
-SRCS=(
-    main.cpp
-)
-
 echo "Compiling..."
-if g++ -std=c++17 -Wall -Werror "${SRCS[@]}" -o blink
+if g++ -std=c++17 -Wall -Werror main.cpp -o blink
 then
     echo "Running..."
-    ./blink
+    ./blink > output.bmp
 fi
