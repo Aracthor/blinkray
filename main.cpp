@@ -13,7 +13,7 @@ constexpr float cameraFowDistance = 50;
 
 constexpr Sphere object = Sphere(30.f);
 
-constexpr Color ProcessPixelColor(const int& x, const int& y)
+constexpr Color ProcessPixelColor(int x, int y)
 {
     Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
