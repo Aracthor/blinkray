@@ -18,12 +18,13 @@ constexpr Scene scene = CreateScene();
 constexpr Color ProcessPixelColor(int x, int y)
 {
     Color pixelColor = Color(0x00, 0x00, 0x00, 0xFF);
-    Vector origin = Vector(-100.f, 0.f, 0.f);
+    const Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
     float targetZ = float(y - imageHeight / 2) / float(imageHeight) * cameraFowHeight;
-    Vector target = Vector(targetX, targetY, targetZ);
-    const std::optional<Vector> intersection = scene.object.Intersection(origin, target);
+    const Vector target = Vector(targetX, targetY, targetZ);
+    const Ray ray = {origin, target};
+    const std::optional<Vector> intersection = scene.object.Intersection(ray);
     if (intersection)
     {
         for (const SpotLight& light : scene.lights)

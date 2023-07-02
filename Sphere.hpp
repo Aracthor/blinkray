@@ -3,22 +3,23 @@
 #include <optional>
 
 #include "Color.hpp"
+#include "Ray.hpp"
 #include "Vector.hpp"
 
 class Sphere
 {
 public:
-    constexpr Sphere(float radius, const Color& color);
+    constexpr Sphere(const Color& color, float radius);
 
-    constexpr std::optional<Vector> Intersection(const Vector& origin,
-                                                 const Vector& direction) const;
+    constexpr std::optional<Vector> Intersection(const Ray& ray) const;
     constexpr Vector GetNormal(const Vector& position) const;
 
     constexpr const Color& GetColor() const { return m_color; }
 
 private:
-    float m_radiusSq;
     Color m_color;
+
+    float m_radiusSq;
 };
 
 #include "Sphere.ipp"

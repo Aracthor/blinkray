@@ -1,31 +1,33 @@
 #include "Quadratic.hpp"
 
-constexpr Sphere::Sphere(float radius, const Color& color)
-    : m_radiusSq(radius * radius)
-    , m_color(color)
+constexpr Sphere::Sphere(const Color& color, float radius)
+    : m_color(color)
+    , m_radiusSq(radius * radius)
 {
 }
 
-constexpr std::optional<Vector> Sphere::Intersection(const Vector& origin, const Vector& dir) const
+constexpr std::optional<Vector> Sphere::Intersection(const Ray& ray) const
 {
-    const float a = dir.x * dir.x + dir.y * dir.y + dir.z * dir.z;
-    const float b = 2 * (origin.x * dir.x + origin.y * dir.y + origin.z * dir.z);
-    const float c = origin.x * origin.x + origin.y * origin.y + origin.z * origin.z - m_radiusSq;
+    const float a = ray.dir.x * ray.dir.x + ray.dir.y * ray.dir.y + ray.dir.z * ray.dir.z;
+    const float b =
+        2 * (ray.origin.x * ray.dir.x + ray.origin.y * ray.dir.y + ray.origin.z * ray.dir.z);
+    const float c = ray.origin.x * ray.origin.x + ray.origin.y * ray.origin.y +
+                    ray.origin.z * ray.origin.z - m_radiusSq;
     float result1 = 0.f, result2 = 0.f;
     const int intersectionCount = Quadratic::solve(a, b, c, result1, result2);
     if (intersectionCount == 0)
         return {};
     if (intersectionCount == 1)
-        return result1 > 0.f ? (origin + dir * result1) : std::optional<Vector>();
+        return result1 > 0.f ? (ray.origin + ray.dir * result1) : std::optional<Vector>();
 
     if (result1 < 0.f && result2 < 0.f)
         return {};
     if (result1 < 0.f)
-        return origin + dir * result2;
+        return ray.origin + ray.dir * result2;
     if (result2 < 0.f)
-        return origin + dir * result1;
+        return ray.origin + ray.dir * result1;
     const float closestResult = std::min(result1, result2);
-    return origin + dir * closestResult;
+    return ray.origin + ray.dir * closestResult;
 }
 
 constexpr Vector Sphere::GetNormal(const Vector& position) const
