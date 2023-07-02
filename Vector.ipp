@@ -14,9 +14,24 @@ constexpr Vector::Vector(const Vector& other)
 {
 }
 
+constexpr float Vector::LengthSq() const
+{
+    return x * x + y * y + z * z;
+}
+
+constexpr float Vector::Length() const
+{
+    return Maths::sqrt(LengthSq());
+}
+
 constexpr Vector Vector::operator+(const Vector& other) const
 {
     return Vector(x + other.x, y + other.y, z + other.z);
+}
+
+constexpr Vector Vector::operator-(const Vector& other) const
+{
+    return Vector(x - other.x, y - other.y, z - other.z);
 }
 
 constexpr Vector Vector::operator*(float n) const
@@ -27,4 +42,9 @@ constexpr Vector Vector::operator*(float n) const
 constexpr Vector Vector::operator/(float n) const
 {
     return Vector(x / n, y / n, z / n);
+}
+
+constexpr float Vector::dot(const Vector& u, const Vector& v)
+{
+    return u.x * v.x + u.y * v.y + u.z * v.z;
 }

@@ -22,4 +22,8 @@ struct Color
         , a(a)
     {
     }
+
+    constexpr Color operator*(float n) const;
 };
+
+#include "Color.ipp"

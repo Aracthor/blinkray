@@ -1,17 +1,19 @@
 #include "Image.hpp"
 #include "Sphere.hpp"
+#include "SpotLight.hpp"
 #include "Vector.hpp"
 
 #include <unistd.h>
 
-constexpr int imageWidth = 80;
-constexpr int imageHeight = 60;
+constexpr int imageWidth = 160;
+constexpr int imageHeight = 120;
 
 constexpr float cameraFowWidth = 80;
 constexpr float cameraFowHeight = 60;
 constexpr float cameraFowDistance = 50;
 
-constexpr Sphere object = Sphere(30.f);
+constexpr Sphere object = Sphere(30.f, Color(0xFF, 0x00, 0x00, 0xFF));
+constexpr SpotLight light = SpotLight(Vector(-20.f, 50.f, -30.f), 30.f);
 
 constexpr Color ProcessPixelColor(int x, int y)
 {
@@ -22,7 +24,11 @@ constexpr Color ProcessPixelColor(int x, int y)
     Vector target = Vector(targetX, targetY, targetZ);
     const std::optional<Vector> intersection = object.Intersection(origin, target);
     if (intersection)
-        return Color(0xFF, 0, 0, 0xFF);
+    {
+        const Vector normal = object.GetNormal(*intersection);
+        const float lightPower = light.LightPower(*intersection, normal);
+        return object.GetColor() * lightPower;
+    }
 
     return Color(0x00, 0x00, 0x00, 0xFF);
 }

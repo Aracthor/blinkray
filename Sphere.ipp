@@ -1,7 +1,8 @@
 #include "Quadratic.hpp"
 
-constexpr Sphere::Sphere(float radius)
+constexpr Sphere::Sphere(float radius, const Color& color)
     : m_radiusSq(radius * radius)
+    , m_color(color)
 {
 }
 
@@ -25,4 +26,9 @@ constexpr std::optional<Vector> Sphere::Intersection(const Vector& origin, const
         return origin + dir * result1;
     const float closestResult = std::min(result1, result2);
     return origin + dir * closestResult;
+}
+
+constexpr Vector Sphere::GetNormal(const Vector& position) const
+{
+    return position;
 }
