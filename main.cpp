@@ -17,6 +17,7 @@ constexpr Scene scene = CreateScene();
 
 constexpr Color ProcessPixelColor(int x, int y)
 {
+    Color pixelColor = Color(0x00, 0x00, 0x00, 0xFF);
     Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
@@ -25,12 +26,15 @@ constexpr Color ProcessPixelColor(int x, int y)
     const std::optional<Vector> intersection = scene.object.Intersection(origin, target);
     if (intersection)
     {
-        const Vector normal = scene.object.GetNormal(*intersection);
-        const float lightPower = scene.light.LightPower(*intersection, normal);
-        return scene.object.GetColor() * lightPower;
+        for (const SpotLight& light : scene.lights)
+        {
+            const Vector normal = scene.object.GetNormal(*intersection);
+            const float lightPower = light.LightPower(*intersection, normal);
+            pixelColor += scene.object.GetColor() * lightPower;
+        }
     }
 
-    return Color(0x00, 0x00, 0x00, 0xFF);
+    return pixelColor;
 }
 
 constexpr auto ProcessImage()

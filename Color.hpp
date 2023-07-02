@@ -23,6 +23,8 @@ struct Color
     {
     }
 
+    constexpr Color& operator+=(const Color& other);
+
     constexpr Color operator*(float n) const;
 };
 
