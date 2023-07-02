@@ -24,13 +24,16 @@ constexpr Color ProcessPixelColor(int x, int y)
     float targetZ = float(y - imageHeight / 2) / float(imageHeight) * cameraFowHeight;
     const Vector target = Vector(targetX, targetY, targetZ);
     const Ray ray = {origin, target};
-    const std::optional<Vector> intersection = scene.object.Intersection(ray);
+
+    const Ray transformedRay = ray.Transform(scene.object.GetPosition());
+    const std::optional<Vector> intersection = scene.object.Intersection(transformedRay);
     if (intersection)
     {
+        const Vector intersectionPoint = *intersection + scene.object.GetPosition();
         for (const SpotLight& light : scene.lights)
         {
             const Vector normal = scene.object.GetNormal(*intersection);
-            const float lightPower = light.LightPower(*intersection, normal);
+            const float lightPower = light.LightPower(intersectionPoint, normal);
             pixelColor += scene.object.GetColor() * lightPower;
         }
     }

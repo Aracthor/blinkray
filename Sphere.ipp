@@ -1,7 +1,8 @@
 #include "Quadratic.hpp"
 
-constexpr Sphere::Sphere(const Color& color, float radius)
-    : m_color(color)
+constexpr Sphere::Sphere(const Vector& position, const Color& color, float radius)
+    : m_position(position)
+    , m_color(color)
     , m_radiusSq(radius * radius)
 {
 }
