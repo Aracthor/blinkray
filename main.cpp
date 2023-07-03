@@ -6,14 +6,42 @@
 
 #include <unistd.h>
 
-constexpr int imageWidth = 160;
-constexpr int imageHeight = 120;
+constexpr int imageWidth = 80;
+constexpr int imageHeight = 60;
 
 constexpr float cameraFowWidth = 80;
 constexpr float cameraFowHeight = 60;
 constexpr float cameraFowDistance = 50;
 
 constexpr Scene scene = CreateScene();
+
+struct Intersection
+{
+    Vector position{};
+    Vector normal{};
+    const Sphere* object{};
+};
+
+template <size_t objectN>
+constexpr Optional<Intersection> ClosestIntersection(const Ray& ray,
+                                                     const std::array<Sphere, objectN>& objects)
+{
+    Optional<Intersection> result;
+    for (const Sphere& object : objects)
+    {
+        const Ray transformedRay = ray.Transform(object.GetPosition());
+        const Optional<Vector> intersection = object.Intersection(transformedRay);
+        if (intersection)
+        {
+            const Vector intersectionPoint = *intersection + object.GetPosition();
+            const Vector normal = object.GetNormal(*intersection);
+            const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
+            if (!result || distanceSq < (ray.origin - result->position).LengthSq())
+                result = {intersectionPoint, normal, &object};
+        }
+    }
+    return result;
+}
 
 constexpr Color ProcessPixelColor(int x, int y)
 {
@@ -25,16 +53,13 @@ constexpr Color ProcessPixelColor(int x, int y)
     const Vector target = Vector(targetX, targetY, targetZ);
     const Ray ray = {origin, target};
 
-    const Ray transformedRay = ray.Transform(scene.object.GetPosition());
-    const Optional<Vector> intersection = scene.object.Intersection(transformedRay);
+    const Optional<Intersection> intersection = ClosestIntersection(ray, scene.objects);
     if (intersection)
     {
-        const Vector intersectionPoint = *intersection + scene.object.GetPosition();
         for (const SpotLight& light : scene.lights)
         {
-            const Vector normal = scene.object.GetNormal(*intersection);
-            const float lightPower = light.LightPower(intersectionPoint, normal);
-            pixelColor += scene.object.GetColor() * lightPower;
+            const float lightPower = light.LightPower(intersection->position, intersection->normal);
+            pixelColor += intersection->object->GetColor() * lightPower;
         }
     }
 

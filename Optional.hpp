@@ -19,6 +19,11 @@ public:
         , m_data(value)
     {
     }
+    constexpr Optional(const Optional<T>& other)
+        : m_hasValue(other.m_hasValue)
+        , m_data(other.m_data)
+    {
+    }
 
     constexpr const T& operator*() const
     {
@@ -26,7 +31,20 @@ public:
             throw std::experimental::bad_optional_access();
         return m_data;
     }
+    constexpr const T* operator->() const
+    {
+        if (!m_hasValue)
+            throw std::experimental::bad_optional_access();
+        return &m_data;
+    }
     constexpr operator bool() const { return m_hasValue; }
+
+    constexpr Optional<T>& operator=(const T& other)
+    {
+        m_hasValue = true;
+        m_data = other;
+        return *this;
+    }
 
 private:
     bool m_hasValue;
