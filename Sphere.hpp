@@ -8,7 +8,7 @@ public:
     constexpr Sphere(const Vector& position, const Color& color, float radius);
 
     constexpr Optional<Vector> Intersection(const Ray& ray) const override;
-    constexpr Vector GetNormal(const Vector& position) const override;
+    constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;
 
 private:
     float m_radiusSq;

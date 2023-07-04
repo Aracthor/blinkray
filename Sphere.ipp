@@ -30,7 +30,7 @@ constexpr Optional<Vector> Sphere::Intersection(const Ray& ray) const
     return ray.origin + ray.dir * closestResult;
 }
 
-constexpr Vector Sphere::GetNormal(const Vector& position) const
+constexpr Vector Sphere::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
     return position;
 }

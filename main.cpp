@@ -34,7 +34,7 @@ ClosestIntersection(const Ray& ray, const std::array<const Object*, objectN>& ob
         if (intersection)
         {
             const Vector intersectionPoint = *intersection + object->GetPosition();
-            const Vector normal = object->GetNormal(*intersection);
+            const Vector normal = object->GetNormal(transformedRay.origin, *intersection);
             const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
                 result = {intersectionPoint, normal, object};

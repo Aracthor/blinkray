@@ -13,7 +13,8 @@ constexpr Optional<Vector> Plane::Intersection(const Ray& ray) const
     return ray.origin + ray.dir * t;
 }
 
-constexpr Vector Plane::GetNormal(const Vector& position) const
+constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
-    return Vector(0.f, 0.f, 1.f);
+    const float z = rayOrigin.z > 0.f ? 1.f : -1.f;
+    return Vector(0.f, 0.f, z);
 }
