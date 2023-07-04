@@ -94,6 +94,7 @@ constexpr auto ProcessImage()
 int main(int argc, char** argv)
 {
     constexpr auto imageFile = ProcessImage();
-    write(STDOUT_FILENO, imageFile.data(), imageFile.size());
+    if (write(STDOUT_FILENO, imageFile.data(), imageFile.size()) != imageFile.size())
+        return 1;
     return 0;
 }
