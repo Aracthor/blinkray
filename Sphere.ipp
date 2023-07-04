@@ -7,7 +7,7 @@ constexpr Sphere::Sphere(const Vector& position, const Color& color, float radiu
 {
 }
 
-constexpr std::optional<Vector> Sphere::Intersection(const Ray& ray) const
+constexpr Optional<Vector> Sphere::Intersection(const Ray& ray) const
 {
     const float a = ray.dir.x * ray.dir.x + ray.dir.y * ray.dir.y + ray.dir.z * ray.dir.z;
     const float b =
@@ -19,7 +19,7 @@ constexpr std::optional<Vector> Sphere::Intersection(const Ray& ray) const
     if (intersectionCount == 0)
         return {};
     if (intersectionCount == 1)
-        return result1 > 0.f ? (ray.origin + ray.dir * result1) : std::optional<Vector>();
+        return result1 > 0.f ? (ray.origin + ray.dir * result1) : Optional<Vector>();
 
     if (result1 < 0.f && result2 < 0.f)
         return {};

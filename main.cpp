@@ -26,7 +26,7 @@ constexpr Color ProcessPixelColor(int x, int y)
     const Ray ray = {origin, target};
 
     const Ray transformedRay = ray.Transform(scene.object.GetPosition());
-    const std::optional<Vector> intersection = scene.object.Intersection(transformedRay);
+    const Optional<Vector> intersection = scene.object.Intersection(transformedRay);
     if (intersection)
     {
         const Vector intersectionPoint = *intersection + scene.object.GetPosition();

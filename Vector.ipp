@@ -1,5 +1,12 @@
 #include "Maths.hpp"
 
+constexpr Vector::Vector()
+    : x(0.f)
+    , y(0.f)
+    , z(0.f)
+{
+}
+
 constexpr Vector::Vector(float x, float y, float z)
     : x(x)
     , y(y)

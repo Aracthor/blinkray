@@ -6,6 +6,7 @@ struct Vector
     float y;
     float z;
 
+    constexpr Vector();
     constexpr Vector(float x, float y, float z);
     constexpr Vector(const Vector& other);
 
