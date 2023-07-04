@@ -14,3 +14,9 @@ constexpr float SpotLight::LightPower(const Vector& position, const Vector& norm
         return 0.0f;
     return m_power / distance * cosAngle;
 }
+
+constexpr Ray SpotLight::RayToPosition(const Vector& position) const
+{
+    const Vector lightDirection = position - m_position;
+    return {m_position, lightDirection};
+}

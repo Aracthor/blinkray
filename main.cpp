@@ -43,6 +43,18 @@ ClosestIntersection(const Ray& ray, const std::array<const Object*, objectN>& ob
     return result;
 }
 
+constexpr void ApplyLightIfPracticable(const Intersection& intersection, const SpotLight& light,
+                                       Color& pixelColor)
+{
+    const Ray lightRay = light.RayToPosition(intersection.position);
+    const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay, scene.objects);
+    if (lightIntersection->object == intersection.object)
+    {
+        const float lightPower = light.LightPower(intersection.position, intersection.normal);
+        pixelColor += intersection.object->GetColor() * lightPower;
+    }
+}
+
 constexpr Color ProcessPixelColor(int x, int y)
 {
     Color pixelColor = Color(0x00, 0x00, 0x00, 0xFF);
@@ -58,8 +70,7 @@ constexpr Color ProcessPixelColor(int x, int y)
     {
         for (const SpotLight& light : scene.lights)
         {
-            const float lightPower = light.LightPower(intersection->position, intersection->normal);
-            pixelColor += intersection->object->GetColor() * lightPower;
+            ApplyLightIfPracticable(*intersection, light, pixelColor);
         }
     }
 
