@@ -19,25 +19,25 @@ struct Intersection
 {
     Vector position{};
     Vector normal{};
-    const Sphere* object{};
+    const Object* object{};
 };
 
 template <size_t objectN>
-constexpr Optional<Intersection> ClosestIntersection(const Ray& ray,
-                                                     const std::array<Sphere, objectN>& objects)
+constexpr Optional<Intersection>
+ClosestIntersection(const Ray& ray, const std::array<const Object*, objectN>& objects)
 {
     Optional<Intersection> result;
-    for (const Sphere& object : objects)
+    for (const Object* object : objects)
     {
-        const Ray transformedRay = ray.Transform(object.GetPosition());
-        const Optional<Vector> intersection = object.Intersection(transformedRay);
+        const Ray transformedRay = ray.Transform(object->GetPosition());
+        const Optional<Vector> intersection = object->Intersection(transformedRay);
         if (intersection)
         {
-            const Vector intersectionPoint = *intersection + object.GetPosition();
-            const Vector normal = object.GetNormal(*intersection);
+            const Vector intersectionPoint = *intersection + object->GetPosition();
+            const Vector normal = object->GetNormal(*intersection);
             const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                result = {intersectionPoint, normal, &object};
+                result = {intersectionPoint, normal, object};
         }
     }
     return result;

@@ -2,16 +2,13 @@
 
 #include "Object.hpp"
 
-class Sphere final : public Object
+class Plane final : public Object
 {
 public:
-    constexpr Sphere(const Vector& position, const Color& color, float radius);
+    constexpr Plane(const Vector& position, const Color& color);
 
     constexpr Optional<Vector> Intersection(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& position) const override;
-
-private:
-    float m_radiusSq;
 };
 
-#include "Sphere.ipp"
+#include "Plane.ipp"

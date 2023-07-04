@@ -1,10 +1,16 @@
 #include "Scene.hpp"
 
+#include "Plane.hpp"
+#include "Sphere.hpp"
+
+constexpr Sphere rSphere = Sphere(Vector(0.f, 20.f, 0.f), Color(0xFF, 0x00, 0x00, 0xFF), 30.f);
+constexpr Plane gPlane = Plane(Vector(0.f, 0.f, 35.f), Color(0x00, 0xFF, 0x00, 0xFF));
+
 constexpr auto CreateScene()
 {
     const std::array objects = {
-        Sphere(Vector(0.f, 20.f, 0.f), Color(0xFF, 0x00, 0x00, 0xFF), 30.f),
-        Sphere(Vector(20.f, -30.f, 10.f), Color(0x00, 0xFF, 0x00, 0xFF), 40.f),
+        (const Object*)&rSphere,
+        (const Object*)&gPlane,
     };
     const std::array lights = {
         SpotLight(Vector(-20.f, 50.f, -30.f), 30.f),
