@@ -49,7 +49,7 @@ constexpr Color ProcessPixelColor(int x, int y)
     const Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
-    float targetZ = float(y - imageHeight / 2) / float(imageHeight) * cameraFowHeight;
+    float targetZ = float(imageHeight / 2 - y) / float(imageHeight) * cameraFowHeight;
     const Vector target = Vector(targetX, targetY, targetZ);
     const Ray ray = {origin, target};
 

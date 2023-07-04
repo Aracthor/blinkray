@@ -15,5 +15,5 @@ constexpr Optional<Vector> Plane::Intersection(const Ray& ray) const
 
 constexpr Vector Plane::GetNormal(const Vector& position) const
 {
-    return Vector(0.f, 0.f, -1.f);
+    return Vector(0.f, 0.f, 1.f);
 }
