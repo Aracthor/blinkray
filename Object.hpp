@@ -17,7 +17,7 @@ public:
     constexpr const Vector& GetPosition() const { return m_position; }
     constexpr const Color& GetColor() const { return m_color; }
 
-    constexpr virtual Optional<Vector> Intersection(const Ray& ray) const = 0;
+    constexpr virtual Optional<float> IntersectionDistance(const Ray& ray) const = 0;
     constexpr virtual Vector GetNormal(const Vector& rayOrigin, const Vector& position) const = 0;
 
 private:

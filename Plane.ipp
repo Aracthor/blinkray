@@ -3,14 +3,14 @@ constexpr Plane::Plane(const Vector& position, const Color& color)
 {
 }
 
-constexpr Optional<Vector> Plane::Intersection(const Ray& ray) const
+constexpr Optional<float> Plane::IntersectionDistance(const Ray& ray) const
 {
     if (ray.dir.z == 0.f)
         return {};
     const float t = -ray.origin.z / ray.dir.z;
     if (t < 0)
         return {};
-    return ray.origin + ray.dir * t;
+    return t;
 }
 
 constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& position) const

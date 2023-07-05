@@ -7,7 +7,7 @@ class Plane final : public Object
 public:
     constexpr Plane(const Vector& position, const Color& color);
 
-    constexpr Optional<Vector> Intersection(const Ray& ray) const override;
+    constexpr Optional<float> IntersectionDistance(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;
 };
 

@@ -8,6 +8,8 @@ struct Ray
     Vector dir;
 
     constexpr Ray Transform(const Vector& translation) const;
+
+    constexpr Vector AtDistance(float distance) const;
 };
 
 #include "Ray.ipp"
