@@ -22,3 +22,5 @@ struct Vector
 };
 
 #include "Vector.ipp"
+
+static_assert(Vector(3.f, 4.f, 0.f).Length() == 5.f);
