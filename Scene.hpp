@@ -5,7 +5,7 @@
 #include "Object.hpp"
 #include "SpotLight.hpp"
 
-template <int objectN, int lightN>
+template <std::size_t objectN, std::size_t lightN>
 struct Scene
 {
     constexpr Scene(const std::array<const Object*, objectN>& objects,
