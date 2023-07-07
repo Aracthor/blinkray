@@ -49,7 +49,7 @@ constexpr void ApplyLightIfPracticable(const Intersection& intersection, const S
 {
     const Ray lightRay = light.RayToPosition(intersection.position);
     const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay, scene.objects);
-    if (lightIntersection->object == intersection.object)
+    if (lightIntersection && lightIntersection->object == intersection.object)
     {
         const float lightPower = light.LightPower(intersection.position, intersection.normal);
         pixelColor += intersection.object->GetColor() * lightPower;
