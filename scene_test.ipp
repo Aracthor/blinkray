@@ -6,10 +6,8 @@
 constexpr Matrix rSphereRepere = Matrix();
 constexpr Matrix gPlaneRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(90.f));
 
-constexpr Sphere rSphere =
-    Sphere(Vector(0.f, -20.f, 0.f), rSphereRepere, Color(0xFF, 0x00, 0x00, 0xFF), 30.f);
-constexpr Plane gPlane =
-    Plane(Vector(0.f, -40.f, 0.f), gPlaneRepere, Color(0x00, 0xFF, 0x00, 0xFF));
+constexpr Sphere rSphere = Sphere(Vector(0.f, -20.f, 0.f), rSphereRepere, Colors::red, 30.f);
+constexpr Plane gPlane = Plane(Vector(0.f, -40.f, 0.f), gPlaneRepere, Colors::green);
 
 constexpr auto CreateScene()
 {

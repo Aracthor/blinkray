@@ -28,4 +28,13 @@ struct Color
     constexpr Color operator*(float n) const;
 };
 
+namespace Colors
+{
+constexpr Color red = Color(0xFF, 0x00, 0x00, 0xFF);
+constexpr Color green = Color(0x00, 0xFF, 0x00, 0xFF);
+constexpr Color blue = Color(0x00, 0x00, 0xFF, 0xFF);
+constexpr Color white = Color(0xFF, 0xFF, 0xFF, 0xFF);
+constexpr Color black = Color(0x00, 0x00, 0x00, 0xFF);
+} // namespace Colors
+
 #include "Color.ipp"

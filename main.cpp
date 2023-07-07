@@ -60,7 +60,7 @@ constexpr void ApplyLightIfPracticable(const Intersection& intersection, const S
 
 constexpr Color ProcessPixelColor(int x, int y)
 {
-    Color pixelColor = Color(0x00, 0x00, 0x00, 0xFF);
+    Color pixelColor = Colors::black;
     const Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
