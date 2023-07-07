@@ -1,5 +1,5 @@
-constexpr Plane::Plane(const Vector& position, const Color& color)
-    : Object(position, color)
+constexpr Plane::Plane(const Vector& position, const Matrix& rotation, const Color& color)
+    : Object(position, rotation, color)
 {
 }
 

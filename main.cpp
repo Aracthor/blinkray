@@ -29,13 +29,15 @@ ClosestIntersection(const Ray& ray, const std::array<const Object*, objectN>& ob
     Optional<Intersection> result;
     for (const Object* object : objects)
     {
-        const Ray transformedRay = ray.Transform(object->GetPosition());
-        const Optional<float> intersectionDistance = object->IntersectionDistance(transformedRay);
+        const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetRotation());
+        const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
         if (intersectionDistance)
         {
-            const Vector intersectionInRepere = transformedRay.AtDistance(*intersectionDistance);
+            const Matrix invertRotation = object->GetInvertRotation();
+            const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
             const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
-            const Vector normal = object->GetNormal(transformedRay.origin, intersectionInRepere);
+            const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
+            const Vector normal = invertRotation * objectNormal;
             const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
                 result = {intersectionPoint, normal, object};

@@ -3,8 +3,13 @@
 #include "Plane.hpp"
 #include "Sphere.hpp"
 
-constexpr Sphere rSphere = Sphere(Vector(0.f, 20.f, 0.f), Color(0xFF, 0x00, 0x00, 0xFF), 30.f);
-constexpr Plane gPlane = Plane(Vector(0.f, 0.f, -35.f), Color(0x00, 0xFF, 0x00, 0xFF));
+constexpr Matrix rSphereRepere = Matrix();
+constexpr Matrix gPlaneRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(90.f));
+
+constexpr Sphere rSphere =
+    Sphere(Vector(0.f, -20.f, 0.f), rSphereRepere, Color(0xFF, 0x00, 0x00, 0xFF), 30.f);
+constexpr Plane gPlane =
+    Plane(Vector(0.f, -40.f, 0.f), gPlaneRepere, Color(0x00, 0xFF, 0x00, 0xFF));
 
 constexpr auto CreateScene()
 {
@@ -14,7 +19,7 @@ constexpr auto CreateScene()
     };
     const std::array lights = {
         SpotLight(Vector(-20.f, 50.f, 30.f), 30.f),
-        SpotLight(Vector(-20.f, -50.f, 50.f), 20.f),
+        SpotLight(Vector(-40.f, 30.f, -10.f), 20.f),
     };
     constexpr int objectN = std::size(objects);
     constexpr int lightN = std::size(lights);
