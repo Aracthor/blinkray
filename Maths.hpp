@@ -15,6 +15,7 @@ constexpr float sqrt(float n);
 constexpr float degToRad(float angle);
 constexpr float cos(float angle);
 constexpr float sin(float angle);
+constexpr float atan(float angle);
 } // namespace Maths
 
 #include "Maths.ipp"
@@ -40,3 +41,8 @@ static_assert(almostEquals(Maths::cos(Maths::_PI_2), 0.f));
 static_assert(almostEquals(Maths::cos(Maths::_PI), -1.f));
 static_assert(almostEquals(Maths::cos(Maths::_PI + Maths::_PI_2), 0.f));
 static_assert(almostEquals(Maths::cos(-Maths::_PI_2), 0.f));
+
+static_assert(almostEquals(Maths::atan(0.f), 0.f));
+static_assert(almostEquals(Maths::atan(1.f), Maths::_PI_2 / 2.f));
+static_assert(almostEquals(Maths::atan(-1.f), -Maths::_PI_2 / 2.f));
+static_assert(almostEquals(Maths::atan(Maths::_PI / 3.f), 1.7320508075f));

@@ -54,7 +54,7 @@ constexpr float cos(float angle)
     return (sin(angle + _PI_2));
 }
 
-// Taylor's polynomial theorem with 4 iterations.
+// Taylor's polynomial theorem with 5 iterations.
 // https://en.wikipedia.org/wiki/Taylor_series#Approximation_error_and_convergence
 constexpr float sin(float angle)
 {
@@ -71,6 +71,21 @@ constexpr float sin(float angle)
             - pow(angle, 7) / fact(7)
             + pow(angle, 9) / fact(9)
             - pow(angle, 11) / fact(11)
+            );
+    // clang-format on
+}
+
+// Will only work with angle between _PI_2 and -_PI_2 !
+// Here we use it only for cone functions, and its angle is always between 0 and _PI_2.
+constexpr float atan(float angle)
+{
+    // clang-format off
+    return (angle
+            - pow(angle, 3) / 3
+            + pow(angle, 5) / 5
+            - pow(angle, 7) / 7
+            + pow(angle, 9) / 9
+            - pow(angle, 11) / 11
             );
     // clang-format on
 }
