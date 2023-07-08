@@ -17,4 +17,22 @@ constexpr int solve(float a, float b, float c, float& result1, float& result2)
     result2 = (-b - dRoot) / (2 * a);
     return 2;
 }
+
+constexpr Optional<float> shortestPositiveResult(float a, float b, float c)
+{
+    float result1 = 0.f, result2 = 0.f;
+    const int intersectionCount = solve(a, b, c, result1, result2);
+    if (intersectionCount == 0)
+        return {};
+    if (intersectionCount == 1)
+        return (result1 > 0.f) ? result1 : Optional<Vector>();
+
+    if (result1 < 0.f && result2 < 0.f)
+        return {};
+    if (result1 < 0.f)
+        return result2;
+    if (result2 < 0.f)
+        return result1;
+    return std::min(result1, result2);
+}
 } // namespace Quadratic
