@@ -1,8 +1,8 @@
-constexpr Ray Ray::Transform(const Vector& position, const Matrix& rotation) const
+constexpr Ray Ray::Transform(const Vector& position, const Matrix& invertRotation) const
 {
     const Vector translatedPosition = origin - position;
-    const Vector newPosition = rotation * translatedPosition;
-    const Vector newDirection = rotation * dir;
+    const Vector newPosition = invertRotation * translatedPosition;
+    const Vector newDirection = invertRotation * dir;
     return {newPosition, newDirection};
 }
 
