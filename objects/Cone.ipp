@@ -1,8 +1,8 @@
 #include "Quadratic.hpp"
 
-constexpr Cone::Cone(const Vector& position, const Matrix& rotation, const Color& color,
+constexpr Cone::Cone(const Vector& position, const Matrix& rotation, const Material& material,
                      float angle)
-    : Object(position, rotation, color)
+    : Object(position, rotation, material)
     , m_squaredCos(Maths::pow(Maths::cos(angle), 2))
     , m_squaredSin(Maths::pow(Maths::sin(angle), 2))
     , m_atan(Maths::atan(Maths::_PI_2 - angle))

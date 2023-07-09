@@ -5,7 +5,7 @@
 class Cylinder final : public Object
 {
 public:
-    constexpr Cylinder(const Vector& position, const Matrix& repere, const Color& color,
+    constexpr Cylinder(const Vector& position, const Matrix& repere, const Material& material,
                        float radius);
 
     constexpr Optional<float> IntersectionDistance(const Ray& ray) const override;

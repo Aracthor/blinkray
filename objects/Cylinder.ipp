@@ -1,8 +1,8 @@
 #include "Quadratic.hpp"
 
-constexpr Cylinder::Cylinder(const Vector& position, const Matrix& rotation, const Color& color,
-                             float radius)
-    : Object(position, rotation, color)
+constexpr Cylinder::Cylinder(const Vector& position, const Matrix& rotation,
+                             const Material& material, float radius)
+    : Object(position, rotation, material)
     , m_radiusSq(radius * radius)
 {
 }

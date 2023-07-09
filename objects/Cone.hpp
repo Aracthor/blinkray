@@ -5,7 +5,8 @@
 class Cone final : public Object
 {
 public:
-    constexpr Cone(const Vector& position, const Matrix& repere, const Color& color, float angle);
+    constexpr Cone(const Vector& position, const Matrix& repere, const Material& material,
+                   float angle);
 
     constexpr Optional<float> IntersectionDistance(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;
