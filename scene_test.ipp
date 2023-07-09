@@ -1,9 +1,9 @@
 #include "Scene.hpp"
 
-#include "Cone.hpp"
-#include "Cylinder.hpp"
-#include "Plane.hpp"
-#include "Sphere.hpp"
+#include "objects/Cone.hpp"
+#include "objects/Cylinder.hpp"
+#include "objects/Plane.hpp"
+#include "objects/Sphere.hpp"
 
 constexpr Matrix rSphereRepere = Matrix();
 constexpr Matrix gPlaneRepere = Matrix();
