@@ -21,3 +21,9 @@ constexpr Vector Sphere::GetNormal(const Vector& rayOrigin, const Vector& positi
 {
     return position;
 }
+
+constexpr Coord2D Sphere::GetUV(const Vector& position) const
+{
+    // TODO
+    return {position.x, position.y};
+}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Coord2D.hpp"
 #include "Material.hpp"
 #include "Matrix.hpp"
 #include "Optional.hpp"
@@ -24,6 +25,7 @@ public:
 
     constexpr virtual Optional<float> IntersectionDistance(const Ray& ray) const = 0;
     constexpr virtual Vector GetNormal(const Vector& rayOrigin, const Vector& position) const = 0;
+    constexpr virtual Coord2D GetUV(const Vector& position) const = 0;
 
 private:
     Vector m_position;

@@ -19,6 +19,7 @@ struct Intersection
 {
     Vector position{};
     Vector normal{};
+    Coord2D uv{};
     const Object* object{};
 };
 
@@ -38,9 +39,10 @@ ClosestIntersection(const Ray& ray, const std::array<const Object*, objectN>& ob
             const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
             const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
             const Vector normal = rotation * objectNormal;
+            const Coord2D uv = object->GetUV(intersectionInRepere);
             const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                result = {intersectionPoint, normal, object};
+                result = {intersectionPoint, normal, uv, object};
         }
     }
     return result;
@@ -71,7 +73,7 @@ constexpr Color ProcessPixelColor(int x, int y)
     const Optional<Intersection> intersection = ClosestIntersection(ray, scene.objects);
     if (intersection)
     {
-        const Color objectColor = intersection->object->GetMaterial().GetColor();
+        const Color objectColor = intersection->object->GetMaterial().GetColor(intersection->uv);
         for (const SpotLight& light : scene.lights)
         {
             ApplyLightIfPracticable(*intersection, objectColor, light, pixelColor);

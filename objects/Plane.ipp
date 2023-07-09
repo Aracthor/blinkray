@@ -18,3 +18,8 @@ constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& positio
     const float z = rayOrigin.z > 0.f ? 1.f : -1.f;
     return Vector(0.f, 0.f, z);
 }
+
+constexpr Coord2D Plane::GetUV(const Vector& position) const
+{
+    return {position.x, position.y};
+}

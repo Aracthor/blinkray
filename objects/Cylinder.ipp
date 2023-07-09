@@ -19,3 +19,9 @@ constexpr Vector Cylinder::GetNormal(const Vector& rayOrigin, const Vector& posi
 {
     return {position.x, position.y, 0.f};
 }
+
+constexpr Coord2D Cylinder::GetUV(const Vector& position) const
+{
+    // TODO
+    return {position.x, position.y};
+}

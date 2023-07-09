@@ -10,7 +10,7 @@ public:
     {
     }
 
-    constexpr Color GetColor() const override { return m_color; }
+    constexpr Color GetColor(Coord2D uv) const override { return m_color; }
 
 private:
     const Color m_color;

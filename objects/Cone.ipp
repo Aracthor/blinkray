@@ -27,3 +27,9 @@ constexpr Vector Cone::GetNormal(const Vector& rayOrigin, const Vector& position
     const float z = m_atan * (Maths::sqrt(position.x * position.x + position.y * position.y));
     return Vector(position.x, position.y, z);
 }
+
+constexpr Coord2D Cone::GetUV(const Vector& position) const
+{
+    // TODO
+    return {position.x, position.y};
+}
