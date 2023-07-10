@@ -13,6 +13,7 @@ public:
     constexpr Coord2D GetUV(const Vector& position) const override;
 
 private:
+    float m_sin;
     float m_squaredCos;
     float m_squaredSin;
     float m_atan;

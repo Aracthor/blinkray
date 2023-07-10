@@ -13,6 +13,7 @@ public:
     constexpr Coord2D GetUV(const Vector& position) const override;
 
 private:
+    float m_radius;
     float m_radiusSq;
 };
 

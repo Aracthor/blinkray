@@ -1,8 +1,10 @@
+#include "Maths.hpp"
 #include "Quadratic.hpp"
 
 constexpr Cylinder::Cylinder(const Vector& position, const Matrix& rotation,
                              const Material& material, float radius)
     : Object(position, rotation, material)
+    , m_radius(radius)
     , m_radiusSq(radius * radius)
 {
 }
@@ -22,6 +24,8 @@ constexpr Vector Cylinder::GetNormal(const Vector& rayOrigin, const Vector& posi
 
 constexpr Coord2D Cylinder::GetUV(const Vector& position) const
 {
-    // TODO
-    return {position.x, position.y};
+    const float cos = (position.y > 0 ? position.x : -position.x) / m_radius;
+    const float angle = Maths::acos(cos);
+    const float u = angle / Maths::_PI_2 * m_radius;
+    return {u, position.z};
 }

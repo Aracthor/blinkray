@@ -1,8 +1,10 @@
+#include "Maths.hpp"
 #include "Quadratic.hpp"
 
 constexpr Cone::Cone(const Vector& position, const Matrix& rotation, const Material& material,
                      float angle)
     : Object(position, rotation, material)
+    , m_sin(Maths::sin(angle))
     , m_squaredCos(Maths::pow(Maths::cos(angle), 2))
     , m_squaredSin(Maths::pow(Maths::sin(angle), 2))
     , m_atan(Maths::atan(Maths::_PI_2 - angle))
@@ -30,6 +32,9 @@ constexpr Vector Cone::GetNormal(const Vector& rayOrigin, const Vector& position
 
 constexpr Coord2D Cone::GetUV(const Vector& position) const
 {
-    // TODO
-    return {position.x, position.y};
+    const float radius = m_sin * position.z;
+    const float cos = (position.y > 0 ? position.x : -position.x) / radius;
+    const float angle = Maths::acos(cos);
+    const float u = angle / Maths::_PI_2;
+    return {u, position.z};
 }

@@ -24,6 +24,6 @@ constexpr Vector Sphere::GetNormal(const Vector& rayOrigin, const Vector& positi
 
 constexpr Coord2D Sphere::GetUV(const Vector& position) const
 {
-    // TODO
-    return {position.x, position.y};
+    // We need a reliable atan2 function to make a correct spherical UV mapping.
+    return {position.y, position.z};
 }

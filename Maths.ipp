@@ -75,6 +75,27 @@ constexpr float sin(float angle)
     // clang-format on
 }
 
+constexpr float acos(float number)
+{
+    return (_PI_2 - asin(number));
+}
+
+// Will only work with number between -1 and 1 !
+// Here we use it only for UV functions.
+// Quite imprecise for number close of -1 or 1.
+constexpr float asin(float number)
+{
+    // clang-format off
+    return (number
+            + pow(number, 3) * 1.f / 6.f
+            + pow(number, 5) * 3.f / 40.f
+            + pow(number, 7) * 5.f / 112.f
+            + pow(number, 9) * 35.f / 1152.f
+            + pow(number, 11) * 63.f / 2816.f
+            );
+    // clang-format on
+}
+
 // Will only work with angle between _PI_2 and -_PI_2 !
 // Here we use it only for cone functions, and its angle is always between 0 and _PI_2.
 constexpr float atan(float angle)
