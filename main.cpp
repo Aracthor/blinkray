@@ -1,6 +1,6 @@
 #include "Image.hpp"
+#include "Raytracer.hpp"
 #include "Scene.hpp"
-#include "Vector.hpp"
 
 #include "scene_test.ipp"
 
@@ -15,54 +15,9 @@ constexpr float cameraFowDistance = 50;
 
 constexpr Scene scene = CreateScene();
 
-struct Intersection
-{
-    Vector position{};
-    Vector normal{};
-    Coord2D uv{};
-    const Object* object{};
-};
-
-template <size_t objectN>
-constexpr Optional<Intersection>
-ClosestIntersection(const Ray& ray, const std::array<const Object*, objectN>& objects)
-{
-    Optional<Intersection> result;
-    for (const Object* object : objects)
-    {
-        const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
-        const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
-        if (intersectionDistance)
-        {
-            const Matrix rotation = object->GetRotation();
-            const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
-            const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
-            const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
-            const Vector normal = rotation * objectNormal;
-            const Coord2D uv = object->GetUV(intersectionInRepere);
-            const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
-            if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                result = {intersectionPoint, normal, uv, object};
-        }
-    }
-    return result;
-}
-
-constexpr void ApplyLightIfPracticable(const Intersection& intersection, const Color& objectColor,
-                                       const SpotLight& light, Color& pixelColor)
-{
-    const Ray lightRay = light.RayToPosition(intersection.position);
-    const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay, scene.objects);
-    if (lightIntersection && lightIntersection->object == intersection.object)
-    {
-        const float lightPower = light.LightPower(intersection.position, intersection.normal);
-        pixelColor += objectColor * lightPower;
-    }
-}
-
 constexpr Color ProcessPixelColor(int x, int y)
 {
-    Color pixelColor = Colors::black;
+    constexpr Raytracer raytracer = Raytracer(scene);
     const Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
@@ -70,17 +25,7 @@ constexpr Color ProcessPixelColor(int x, int y)
     const Vector target = Vector(targetX, targetY, targetZ);
     const Ray ray = {origin, target};
 
-    const Optional<Intersection> intersection = ClosestIntersection(ray, scene.objects);
-    if (intersection)
-    {
-        const Color objectColor = intersection->object->GetMaterial().GetColor(intersection->uv);
-        for (const SpotLight& light : scene.lights)
-        {
-            ApplyLightIfPracticable(*intersection, objectColor, light, pixelColor);
-        }
-    }
-
-    return pixelColor;
+    return raytracer.ProjectRay(ray);
 }
 
 constexpr auto ProcessImage()
