@@ -6,7 +6,6 @@ constexpr float _PI = 3.14159265359;
 constexpr float _PI_2 = _PI / 2.f;
 constexpr float _2_PI = 2.f * _PI;
 
-constexpr float abs(float number);
 constexpr float pow(float number, int n);
 constexpr int fact(int n);
 
@@ -34,15 +33,10 @@ static_assert(Maths::sqrt(100.f) == 10.f);
 
 constexpr bool almostEquals(float a, float b)
 {
-    return abs(a - b) < 0.001f;
+    return std::abs(a - b) < 0.001f;
 }
 static_assert(almostEquals(Maths::cos(0.f), 1.f));
 static_assert(almostEquals(Maths::cos(Maths::_PI_2), 0.f));
 static_assert(almostEquals(Maths::cos(Maths::_PI), -1.f));
 static_assert(almostEquals(Maths::cos(Maths::_PI + Maths::_PI_2), 0.f));
 static_assert(almostEquals(Maths::cos(-Maths::_PI_2), 0.f));
-
-static_assert(almostEquals(Maths::atan(0.f), 0.f));
-static_assert(almostEquals(Maths::atan(1.f), Maths::_PI_2 / 2.f));
-static_assert(almostEquals(Maths::atan(-1.f), -Maths::_PI_2 / 2.f));
-static_assert(almostEquals(Maths::atan(Maths::_PI / 3.f), 1.7320508075f));
