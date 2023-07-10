@@ -1,18 +1,17 @@
-template <std::size_t objectN, std::size_t lightN>
-constexpr Raytracer<objectN, lightN>::Raytracer(const Scene<objectN, lightN>& scene)
-    : m_scene(scene)
+constexpr Raytracer::Raytracer(span<const Object*> objects, span<const SpotLight> lights)
+    : m_objects(objects)
+    , m_lights(lights)
 {
 }
 
-template <std::size_t objectN, std::size_t lightN>
-constexpr Color Raytracer<objectN, lightN>::ProjectRay(const Ray& ray) const
+constexpr Color Raytracer::ProjectRay(const Ray& ray) const
 {
     Color pixelColor = Colors::black;
     const Optional<Intersection> intersection = ClosestIntersection(ray);
     if (intersection)
     {
         const Color objectColor = intersection->object->GetMaterial().GetColor(intersection->uv);
-        for (const SpotLight& light : m_scene.lights)
+        for (const SpotLight& light : m_lights)
         {
             ApplyLightIfPracticable(*intersection, objectColor, light, pixelColor);
         }
@@ -20,12 +19,10 @@ constexpr Color Raytracer<objectN, lightN>::ProjectRay(const Ray& ray) const
     return pixelColor;
 }
 
-template <std::size_t objectN, std::size_t lightN>
-constexpr Optional<Intersection>
-Raytracer<objectN, lightN>::ClosestIntersection(const Ray& ray) const
+constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const Ray& ray) const
 {
     Optional<Intersection> result;
-    for (const Object* object : m_scene.objects)
+    for (const Object* object : m_objects)
     {
         const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
         const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
@@ -45,11 +42,9 @@ Raytracer<objectN, lightN>::ClosestIntersection(const Ray& ray) const
     return result;
 }
 
-template <std::size_t objectN, std::size_t lightN>
-constexpr void Raytracer<objectN, lightN>::ApplyLightIfPracticable(const Intersection& intersection,
-                                                                   const Color& objectColor,
-                                                                   const SpotLight& light,
-                                                                   Color& pixelColor) const
+constexpr void Raytracer::ApplyLightIfPracticable(const Intersection& intersection,
+                                                  const Color& objectColor, const SpotLight& light,
+                                                  Color& pixelColor) const
 {
     const Ray lightRay = light.RayToPosition(intersection.position);
     const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay);

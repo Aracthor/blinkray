@@ -17,7 +17,7 @@ constexpr Scene scene = CreateScene();
 
 constexpr Color ProcessPixelColor(int x, int y)
 {
-    constexpr Raytracer raytracer = Raytracer(scene);
+    constexpr Raytracer raytracer = Raytracer(scene.Objects(), scene.Lights());
     const Vector origin = Vector(-100.f, 0.f, 0.f);
     float targetX = cameraFowDistance;
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
