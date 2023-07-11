@@ -2,8 +2,6 @@
 
 #include "Color.hpp"
 
-#include <array>
-
 template <int WIDTH, int HEIGHT>
 class Image
 {
