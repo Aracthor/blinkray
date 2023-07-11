@@ -31,6 +31,11 @@ constexpr float Vector::Length() const
     return Maths::sqrt(LengthSq());
 }
 
+constexpr Vector Vector::Normalized() const
+{
+    return *this / Length();
+}
+
 constexpr Vector Vector::operator+(const Vector& other) const
 {
     return Vector(x + other.x, y + other.y, z + other.z);

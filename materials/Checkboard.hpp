@@ -5,8 +5,9 @@
 class Checkboard final : public Material
 {
 public:
-    constexpr Checkboard(const Color& color1, const Color& color2, float tiling)
-        : m_color1(color1)
+    constexpr Checkboard(float reflection, const Color& color1, const Color& color2, float tiling)
+        : Material(reflection)
+        , m_color1(color1)
         , m_color2(color2)
         , m_tiling(tiling)
     {

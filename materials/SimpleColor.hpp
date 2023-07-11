@@ -5,8 +5,9 @@
 class SimpleColor final : public Material
 {
 public:
-    constexpr SimpleColor(const Color& color)
-        : m_color(color)
+    constexpr SimpleColor(float reflection, const Color& color)
+        : Material(reflection)
+        , m_color(color)
     {
     }
 

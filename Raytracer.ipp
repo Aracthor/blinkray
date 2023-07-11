@@ -11,10 +11,26 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     if (intersection)
     {
         const Material& material = intersection->object->GetMaterial();
-        const Color objectColor = material.GetColor(intersection->uv);
-        for (const SpotLight& light : m_lights)
+        const float reflectionRatio = material.GetReflection();
+        const float surfaceColorRatio = 1.f - reflectionRatio;
+        if (reflectionRatio > 0.f)
         {
-            pixelColor += objectColor * LightPowerOnPoint(*intersection, light);
+            const Vector dir = ray.dir.Normalized();
+            const Vector normal = intersection->normal.Normalized();
+            const Vector reflectionDirection = dir - normal * 2 * Vector::dot(dir, normal);
+            // We slightly move the origin to be sure the object won't detect itself.
+            const Vector reflectionOrigin = intersection->position + reflectionDirection * 0.01;
+            const Ray reflectedRay = {reflectionOrigin, reflectionDirection};
+            const Color reflectedColor = ProjectRay(reflectedRay);
+            pixelColor += reflectedColor * reflectionRatio;
+        }
+        if (surfaceColorRatio > 0.f)
+        {
+            const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
+            for (const SpotLight& light : m_lights)
+            {
+                pixelColor += objectColor * LightPowerOnPoint(*intersection, light);
+            }
         }
     }
     return pixelColor;

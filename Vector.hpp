@@ -12,6 +12,7 @@ struct Vector
 
     constexpr float LengthSq() const;
     constexpr float Length() const;
+    constexpr Vector Normalized() const;
 
     constexpr Vector operator+(const Vector& other) const;
     constexpr Vector operator-(const Vector& other) const;
