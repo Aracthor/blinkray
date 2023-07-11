@@ -23,9 +23,8 @@ private:
         const Object* object{};
     };
 
-    constexpr void ApplyLightIfPracticable(const Intersection& intersection,
-                                           const Color& objectColor, const SpotLight& light,
-                                           Color& pixelColor) const;
+    constexpr float LightPowerOnPoint(const Intersection& intersection,
+                                      const SpotLight& light) const;
 
     constexpr Optional<Intersection> ClosestIntersection(const Ray& ray) const;
 

@@ -10,10 +10,11 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     const Optional<Intersection> intersection = ClosestIntersection(ray);
     if (intersection)
     {
-        const Color objectColor = intersection->object->GetMaterial().GetColor(intersection->uv);
+        const Material& material = intersection->object->GetMaterial();
+        const Color objectColor = material.GetColor(intersection->uv);
         for (const SpotLight& light : m_lights)
         {
-            ApplyLightIfPracticable(*intersection, objectColor, light, pixelColor);
+            pixelColor += objectColor * LightPowerOnPoint(*intersection, light);
         }
     }
     return pixelColor;
@@ -42,15 +43,14 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
     return result;
 }
 
-constexpr void Raytracer::ApplyLightIfPracticable(const Intersection& intersection,
-                                                  const Color& objectColor, const SpotLight& light,
-                                                  Color& pixelColor) const
+constexpr float Raytracer::LightPowerOnPoint(const Intersection& intersection,
+                                             const SpotLight& light) const
 {
     const Ray lightRay = light.RayToPosition(intersection.position);
     const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay);
     if (lightIntersection && lightIntersection->object == intersection.object)
     {
-        const float lightPower = light.LightPower(intersection.position, intersection.normal);
-        pixelColor += objectColor * lightPower;
+        return light.LightPower(intersection.position, intersection.normal);
     }
+    return 0.f;
 }
