@@ -16,7 +16,6 @@ constexpr float cos(float angle);
 constexpr float sin(float angle);
 constexpr float acos(float angle);
 constexpr float asin(float angle);
-constexpr float atan(float angle);
 } // namespace Maths
 
 #include "Maths.ipp"

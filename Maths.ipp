@@ -95,19 +95,4 @@ constexpr float asin(float number)
             );
     // clang-format on
 }
-
-// Will only work with angle between _PI_2 and -_PI_2 !
-// Here we use it only for cone functions, and its angle is always between 0 and _PI_2.
-constexpr float atan(float angle)
-{
-    // clang-format off
-    return (angle
-            - pow(angle, 3) / 3
-            + pow(angle, 5) / 5
-            - pow(angle, 7) / 7
-            + pow(angle, 9) / 9
-            - pow(angle, 11) / 11
-            );
-    // clang-format on
-}
 } // namespace Maths
