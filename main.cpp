@@ -23,7 +23,7 @@ constexpr Color ProcessPixelColor(int x, int y)
     float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
     float targetZ = float(imageHeight / 2 - y) / float(imageHeight) * cameraFowHeight;
     const Vector target = Vector(targetX, targetY, targetZ);
-    const Ray ray = {origin, target};
+    const Ray ray = {origin, target.Normalized()};
 
     return raytracer.ProjectRay(ray);
 }

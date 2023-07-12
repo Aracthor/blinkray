@@ -9,6 +9,7 @@ public:
     constexpr SpotLight(const Vector& position, float power);
 
     constexpr float LightPower(const Vector& position, const Vector& normal) const;
+    constexpr float SpecularPower(const Vector& position, const Vector& reflectionDirection) const;
     constexpr Ray RayToPosition(const Vector& position) const;
 
 private:

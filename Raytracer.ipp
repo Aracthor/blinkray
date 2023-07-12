@@ -10,16 +10,17 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     const Optional<Intersection> intersection = ClosestIntersection(ray);
     if (intersection)
     {
+        const Vector position = intersection->position;
+        const Vector dir = ray.dir;
+        const Vector normal = intersection->normal;
+        const Vector reflectionDirection = dir - normal * 2 * Vector::dot(dir, normal);
         const Material& material = intersection->object->GetMaterial();
         const float reflectionRatio = material.GetReflection();
         const float surfaceColorRatio = 1.f - reflectionRatio;
         if (reflectionRatio > 0.f)
         {
-            const Vector dir = ray.dir.Normalized();
-            const Vector normal = intersection->normal.Normalized();
-            const Vector reflectionDirection = dir - normal * 2 * Vector::dot(dir, normal);
             // We slightly move the origin to be sure the object won't detect itself.
-            const Vector reflectionOrigin = intersection->position + reflectionDirection * 0.01;
+            const Vector reflectionOrigin = position + reflectionDirection * 0.01;
             const Ray reflectedRay = {reflectionOrigin, reflectionDirection};
             const Color reflectedColor = ProjectRay(reflectedRay);
             pixelColor += reflectedColor * reflectionRatio;
@@ -27,9 +28,13 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         if (surfaceColorRatio > 0.f)
         {
             const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
+            const Color specularColor = Colors::white * surfaceColorRatio;
             for (const SpotLight& light : m_lights)
             {
-                pixelColor += objectColor * LightPowerOnPoint(*intersection, light);
+                const float lightPower = LightPowerOnPoint(*intersection, light);
+                const float specularPower = light.SpecularPower(position, reflectionDirection);
+                pixelColor += objectColor * lightPower;
+                pixelColor += specularColor * specularPower;
             }
         }
     }
@@ -49,7 +54,7 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
             const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
             const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
             const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
-            const Vector normal = rotation * objectNormal;
+            const Vector normal = rotation * objectNormal.Normalized();
             const Coord2D uv = object->GetUV(intersectionInRepere);
             const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
