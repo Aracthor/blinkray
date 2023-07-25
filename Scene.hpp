@@ -15,8 +15,7 @@ struct IScene
 template <std::size_t objectN, std::size_t lightN>
 struct Scene final : public IScene
 {
-    constexpr Scene(const std::array<const Object*, objectN>& objects,
-                    const std::array<SpotLight, lightN>& lights)
+    constexpr Scene(const std::array<const Object*, objectN>& objects, const std::array<SpotLight, lightN>& lights)
         : m_objects(objects)
         , m_lights(lights)
     {

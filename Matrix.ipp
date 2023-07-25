@@ -133,8 +133,7 @@ constexpr Vector Matrix::operator*(const Vector& vector) const
 
 constexpr bool Matrix::operator==(const Matrix& other) const
 {
-    return (
-        m_data[0][0] == other[0][0] && m_data[0][1] == other[0][1] && m_data[0][2] == other[0][2] &&
-        m_data[1][0] == other[1][0] && m_data[1][1] == other[1][1] && m_data[1][2] == other[1][2] &&
-        m_data[2][0] == other[2][0] && m_data[2][1] == other[2][1] && m_data[2][2] == other[2][2]);
+    return (m_data[0][0] == other[0][0] && m_data[0][1] == other[0][1] && m_data[0][2] == other[0][2] &&
+            m_data[1][0] == other[1][0] && m_data[1][1] == other[1][1] && m_data[1][2] == other[1][2] &&
+            m_data[2][0] == other[2][0] && m_data[2][1] == other[2][1] && m_data[2][2] == other[2][2]);
 }

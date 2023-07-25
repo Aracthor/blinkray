@@ -97,8 +97,7 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const 
 }
 
 template <std::size_t SIZE>
-constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex,
-                           const BmpPV4Header& infoHeader)
+constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const BmpPV4Header& infoHeader)
 {
     WriteInData(data, writeIndex, infoHeader.headerSize);
     WriteInData(data, writeIndex, infoHeader.width);

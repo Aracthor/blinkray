@@ -15,8 +15,7 @@ constexpr float SpotLight::LightPower(const Vector& position, const Vector& norm
     return m_power / distance * cosAngle;
 }
 
-constexpr float SpotLight::SpecularPower(const Vector& position,
-                                         const Vector& reflectionDirection) const
+constexpr float SpotLight::SpecularPower(const Vector& position, const Vector& reflectionDirection) const
 {
     const Vector positionToLight = m_position - position;
     const float distance = positionToLight.Length();
