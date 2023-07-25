@@ -25,17 +25,15 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
             const Color reflectedColor = ProjectRay(reflectedRay);
             pixelColor += reflectedColor * reflectionRatio;
         }
-        if (surfaceColorRatio > 0.f)
+
+        const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
+        const Color specularColor = Colors::white;
+        for (const SpotLight& light : m_lights)
         {
-            const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
-            const Color specularColor = Colors::white * surfaceColorRatio;
-            for (const SpotLight& light : m_lights)
-            {
-                const float lightPower = LightPowerOnPoint(*intersection, light);
-                const float specularPower = light.SpecularPower(position, reflectionDirection);
-                pixelColor += objectColor * lightPower;
-                pixelColor += specularColor * specularPower;
-            }
+            const float lightPower = LightPowerOnPoint(*intersection, light);
+            const float specularPower = light.SpecularPower(position, reflectionDirection);
+            pixelColor += objectColor * lightPower;
+            pixelColor += specularColor * specularPower;
         }
     }
     return pixelColor;
@@ -64,8 +62,7 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
     return result;
 }
 
-constexpr float Raytracer::LightPowerOnPoint(const Intersection& intersection,
-                                             const SpotLight& light) const
+constexpr float Raytracer::LightPowerOnPoint(const Intersection& intersection, const SpotLight& light) const
 {
     const Ray lightRay = light.RayToPosition(intersection.position);
     const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay);
