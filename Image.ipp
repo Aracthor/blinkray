@@ -1,5 +1,7 @@
 #include <cstdint>
 
+constexpr int pixelSize = sizeof(unsigned char) * 4;
+
 template <std::size_t SIZE, int N>
 constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const uint8_t (&array)[N])
 {
@@ -35,10 +37,10 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, int32_
 template <std::size_t SIZE>
 constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, Color c)
 {
-    data[writeIndex++] = (char)(c.r);
-    data[writeIndex++] = (char)(c.g);
-    data[writeIndex++] = (char)(c.b);
-    data[writeIndex++] = (char)(c.a);
+    data[writeIndex++] = (char)((unsigned char)(c.r * 255));
+    data[writeIndex++] = (char)((unsigned char)(c.g * 255));
+    data[writeIndex++] = (char)((unsigned char)(c.b * 255));
+    data[writeIndex++] = (char)((unsigned char)(c.a * 255));
 }
 
 struct __attribute__((packed)) BmpPV4Header
@@ -46,7 +48,7 @@ struct __attribute__((packed)) BmpPV4Header
     constexpr BmpPV4Header(int width, int height)
         : width(width)
         , height(height)
-        , rawDataSize(width * height * sizeof(Color))
+        , rawDataSize(width * height * pixelSize)
     {
     }
 
@@ -124,7 +126,7 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const 
 template <int WIDTH, int HEIGHT>
 constexpr auto Image<WIDTH, HEIGHT>::ToBitmapFile() const
 {
-    constexpr int size = sizeof(BmpHeader) + sizeof(BmpPV4Header) + sizeof(Color) * WIDTH * HEIGHT;
+    constexpr int size = sizeof(BmpHeader) + sizeof(BmpPV4Header) + pixelSize * WIDTH * HEIGHT;
     BmpHeader header = BmpHeader(size);
     BmpPV4Header infoHeader = BmpPV4Header(WIDTH, HEIGHT);
     std::array<char, size> data = {};

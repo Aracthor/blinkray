@@ -1,20 +1,10 @@
 #include <algorithm>
 
-namespace
-{
-constexpr unsigned char addWithoutOverflow(unsigned char a, unsigned char b)
-{
-    const int sum = static_cast<int>(a) + static_cast<int>(b);
-    constexpr unsigned char max = std::numeric_limits<unsigned char>::max();
-    return sum > max ? max : sum;
-}
-} // namespace
-
 constexpr Color& Color::operator+=(const Color& other)
 {
-    r = addWithoutOverflow(r, other.r);
-    g = addWithoutOverflow(g, other.g);
-    b = addWithoutOverflow(b, other.b);
+    r = std::min(r + other.r, 1.f);
+    g = std::min(g + other.g, 1.f);
+    b = std::min(b + other.b, 1.f);
     return *this;
 }
 

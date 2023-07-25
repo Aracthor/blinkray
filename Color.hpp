@@ -2,10 +2,10 @@
 
 struct Color
 {
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
-    unsigned char a;
+    float r;
+    float g;
+    float b;
+    float a;
 
     constexpr Color()
         : r(0)
@@ -15,7 +15,7 @@ struct Color
     {
     }
 
-    constexpr Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+    constexpr Color(float r, float g, float b, float a)
         : r(r)
         , g(g)
         , b(b)
@@ -30,11 +30,11 @@ struct Color
 
 namespace Colors
 {
-constexpr Color red = Color(0xFF, 0x00, 0x00, 0xFF);
-constexpr Color green = Color(0x00, 0xFF, 0x00, 0xFF);
-constexpr Color blue = Color(0x00, 0x00, 0xFF, 0xFF);
-constexpr Color white = Color(0xFF, 0xFF, 0xFF, 0xFF);
-constexpr Color black = Color(0x00, 0x00, 0x00, 0xFF);
+constexpr Color red = Color(1.f, 0.f, 0.f, 1.f);
+constexpr Color green = Color(0.f, 1.f, 0.f, 1.f);
+constexpr Color blue = Color(0.f, 0.f, 1.f, 1.f);
+constexpr Color white = Color(1.f, 1.f, 1.f, 1.f);
+constexpr Color black = Color(0.f, 0.f, 0.f, 1.f);
 } // namespace Colors
 
 #include "Color.ipp"
