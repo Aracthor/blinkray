@@ -1,5 +1,7 @@
 #include "Scene.hpp"
 
+#include "cameras/FishEyeCamera.hpp"
+#include "cameras/PerspectiveCamera.hpp"
 #include "materials/Checkboard.hpp"
 #include "materials/SimpleColor.hpp"
 #include "objects/Cylinder.hpp"
@@ -21,8 +23,13 @@ constexpr Cylinder bCylinder = Cylinder(Vector(0.f, 30.f, 0.f), bCylindRepere, b
 constexpr SpotLight whiteSpotLight = SpotLight(Colors::white, Vector(10.f, -180.f, 160.f), 60.f);
 constexpr SpotLight yellowSpotLight = SpotLight(Colors::yellow, Vector(0.f, 60.f, 40.f), 30.f);
 
-constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundX(Maths::degToRad(15.f));
-constexpr Camera camera = Camera(Vector(-100.f, 0.f, 0.f), cameraMatrix, 80.f, 60.f, 50.f);
+constexpr Vector cameraPos = Vector(-100.f, 0.f, 0.f);
+constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundX(Maths::degToRad(0.f));
+constexpr PerspectiveCamera perspCamera = PerspectiveCamera(cameraPos, cameraMatrix, 80.f, 60.f, 50.f);
+
+constexpr float azimuthAngle = Maths::degToRad(80.f);
+constexpr float siteAngle = Maths::degToRad(60.f);
+constexpr FishEyeCamera fishEyeCamera = FishEyeCamera(cameraPos, cameraMatrix, azimuthAngle, siteAngle);
 
 constexpr auto CreateScene()
 {
@@ -34,5 +41,6 @@ constexpr auto CreateScene()
         &whiteSpotLight,
         &yellowSpotLight,
     };
+    const Camera* camera = &perspCamera;
     return Scene(camera, objects, lights);
 }

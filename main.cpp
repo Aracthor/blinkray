@@ -14,7 +14,7 @@ constexpr Scene scene = CreateScene();
 constexpr auto ProcessImage()
 {
     constexpr Raytracer raytracer = Raytracer(scene.Objects(), scene.Lights());
-    constexpr const Camera& camera = scene.GetCamera();
+    constexpr const Camera* camera = scene.GetCamera();
 
     auto image = Image<imageWidth, imageHeight>();
     for (int y = 0; y < imageHeight; y++)
@@ -23,8 +23,9 @@ constexpr auto ProcessImage()
         {
             const float pixelX = float(x - imageWidth / 2) / float(imageWidth);
             const float pixelY = float(imageHeight / 2 - y) / float(imageHeight);
-            const Ray ray = camera.GetRay(pixelX, pixelY);
-            const Color pixelColor = raytracer.ProjectRay(ray);
+            const Ray ray = camera->GetRay(pixelX, pixelY);
+            const Ray transformedRay = ray.Transform(-camera->Position(), camera->InvertRotation());
+            const Color pixelColor = raytracer.ProjectRay(transformedRay);
             image.SetPixel(x, y, pixelColor);
         }
     }

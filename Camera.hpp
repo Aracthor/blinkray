@@ -7,18 +7,17 @@
 class Camera
 {
 public:
-    constexpr Camera(const Vector& position, const Matrix& rotation, float fowWidth, float fowHeight,
-                     float fowDistance);
+    constexpr Camera(const Vector& position, const Matrix& rotation);
+
+    constexpr const Vector& Position() const { return m_position; }
+    constexpr const Matrix& InvertRotation() const { return m_invertRotation; }
 
     // Both of those params are between -0.5 and 0.5
-    constexpr Ray GetRay(float pixelX, float pixelY) const;
+    virtual constexpr Ray GetRay(float pixelX, float pixelY) const = 0;
 
 private:
     Vector m_position;
     Matrix m_invertRotation;
-    float m_fowWidth;
-    float m_fowHeight;
-    float m_fowDistance;
 };
 
 #include "Camera.ipp"
