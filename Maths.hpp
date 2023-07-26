@@ -42,6 +42,12 @@ static_assert(almostEquals(Maths::cos(Maths::_PI), -1.f));
 static_assert(almostEquals(Maths::cos(Maths::_PI + Maths::_PI_2), 0.f));
 static_assert(almostEquals(Maths::cos(-Maths::_PI_2), 0.f));
 
+static_assert(almostEquals(Maths::sin(0.f), 0.f));
+static_assert(almostEquals(Maths::sin(Maths::_PI_2), 1.f));
+static_assert(almostEquals(Maths::sin(Maths::_PI), 0.f));
+static_assert(almostEquals(Maths::sin(Maths::_PI + Maths::_PI_2), -1.f));
+static_assert(almostEquals(Maths::sin(-Maths::_PI_2), -1.f));
+
 // static_assert(almostEquals(Maths::acos(1.f), 0.f));
 static_assert(almostEquals(Maths::acos(0.5f), Maths::_PI / 3.f));
 static_assert(almostEquals(Maths::acos(0.f), Maths::_PI_2));

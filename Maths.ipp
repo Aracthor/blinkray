@@ -59,8 +59,8 @@ constexpr float cos(float angle)
 constexpr float sin(float angle)
 {
     // set x between _PI and -_PI.
-    if (angle < 0.0f)
-        angle = -angle;
+    while (angle < -_PI)
+        angle += _2_PI;
     while (angle > _PI)
         angle -= _2_PI;
 
