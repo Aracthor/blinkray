@@ -24,6 +24,7 @@ struct Color
     }
 
     constexpr Color& operator+=(const Color& other);
+    constexpr Color operator*(const Color& other) const;
 
     constexpr Color operator*(float n) const;
 };
@@ -33,6 +34,7 @@ namespace Colors
 constexpr Color red = Color(1.f, 0.f, 0.f, 1.f);
 constexpr Color green = Color(0.f, 1.f, 0.f, 1.f);
 constexpr Color blue = Color(0.f, 0.f, 1.f, 1.f);
+constexpr Color yellow = Color(1.f, 1.f, 0.f, 1.f);
 constexpr Color white = Color(1.f, 1.f, 1.f, 1.f);
 constexpr Color black = Color(0.f, 0.f, 0.f, 1.f);
 } // namespace Colors

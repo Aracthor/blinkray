@@ -8,6 +8,11 @@ constexpr Color& Color::operator+=(const Color& other)
     return *this;
 }
 
+constexpr Color Color::operator*(const Color& other) const
+{
+    return Color(r * other.r, g * other.g, b * other.b, a * other.a);
+}
+
 constexpr Color Color::operator*(float n) const
 {
     n = std::min(1.f, n);

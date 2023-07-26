@@ -1,5 +1,6 @@
-constexpr SpotLight::SpotLight(const Vector& position, float power)
-    : m_position(position)
+constexpr SpotLight::SpotLight(const Color& color, const Vector& position, float power)
+    : m_color(color)
+    , m_position(position)
     , m_power(power)
 {
 }

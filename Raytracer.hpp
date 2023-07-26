@@ -10,7 +10,7 @@
 class Raytracer
 {
 public:
-    constexpr Raytracer(span<const Object*> objects, span<const SpotLight> lights);
+    constexpr Raytracer(span<const Object*> objects, span<const SpotLight*> lights);
 
     constexpr Color ProjectRay(const Ray& ray) const;
 
@@ -23,13 +23,12 @@ private:
         const Object* object{};
     };
 
-    constexpr float LightPowerOnPoint(const Intersection& intersection,
-                                      const SpotLight& light) const;
+    constexpr float LightPowerOnPoint(const Intersection& intersection, const SpotLight* light) const;
 
     constexpr Optional<Intersection> ClosestIntersection(const Ray& ray) const;
 
     span<const Object*> m_objects;
-    span<const SpotLight> m_lights;
+    span<const SpotLight*> m_lights;
 };
 
 #include "Raytracer.ipp"
