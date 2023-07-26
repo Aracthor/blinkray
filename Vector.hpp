@@ -14,6 +14,7 @@ struct Vector
     constexpr float Length() const;
     constexpr Vector Normalized() const;
 
+    constexpr Vector operator-() const;
     constexpr Vector operator+(const Vector& other) const;
     constexpr Vector operator-(const Vector& other) const;
     constexpr Vector operator*(float n) const;
