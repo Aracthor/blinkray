@@ -8,7 +8,7 @@ constexpr Optional<float> Plane::IntersectionDistance(const Ray& ray) const
     if (ray.dir.z == 0.f)
         return {};
     const float t = -ray.origin.z / ray.dir.z;
-    if (t < 0)
+    if (t <= 0)
         return {};
     return t;
 }
