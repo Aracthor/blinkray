@@ -9,10 +9,6 @@
 constexpr int imageWidth = 80;
 constexpr int imageHeight = 60;
 
-constexpr float cameraFowWidth = 80;
-constexpr float cameraFowHeight = 60;
-constexpr float cameraFowDistance = 50;
-
 constexpr Scene scene = CreateScene();
 
 constexpr auto ProcessImage()
