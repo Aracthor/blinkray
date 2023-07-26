@@ -15,27 +15,20 @@ constexpr float cameraFowDistance = 50;
 
 constexpr Scene scene = CreateScene();
 
-constexpr Color ProcessPixelColor(int x, int y)
-{
-    constexpr Raytracer raytracer = Raytracer(scene.Objects(), scene.Lights());
-    const Vector origin = Vector(-100.f, 0.f, 0.f);
-    float targetX = cameraFowDistance;
-    float targetY = float(x - imageWidth / 2) / float(imageWidth) * cameraFowWidth;
-    float targetZ = float(imageHeight / 2 - y) / float(imageHeight) * cameraFowHeight;
-    const Vector target = Vector(targetX, targetY, targetZ);
-    const Ray ray = {origin, target.Normalized()};
-
-    return raytracer.ProjectRay(ray);
-}
-
 constexpr auto ProcessImage()
 {
+    constexpr Raytracer raytracer = Raytracer(scene.Objects(), scene.Lights());
+    constexpr const Camera& camera = scene.GetCamera();
+
     auto image = Image<imageWidth, imageHeight>();
     for (int y = 0; y < imageHeight; y++)
     {
         for (int x = 0; x < imageWidth; x++)
         {
-            Color pixelColor = ProcessPixelColor(x, y);
+            const float pixelX = float(x - imageWidth / 2) / float(imageWidth);
+            const float pixelY = float(imageHeight / 2 - y) / float(imageHeight);
+            const Ray ray = camera.GetRay(pixelX, pixelY);
+            const Color pixelColor = raytracer.ProjectRay(ray);
             image.SetPixel(x, y, pixelColor);
         }
     }

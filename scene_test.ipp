@@ -21,6 +21,8 @@ constexpr Cylinder bCylinder = Cylinder(Vector(0.f, 30.f, 0.f), bCylindRepere, b
 constexpr SpotLight whiteSpotLight = SpotLight(Colors::white, Vector(10.f, -180.f, 160.f), 60.f);
 constexpr SpotLight yellowSpotLight = SpotLight(Colors::yellow, Vector(0.f, 60.f, 40.f), 30.f);
 
+constexpr Camera camera = Camera(Vector(-100.f, 0.f, 0.f), 80.f, 60.f, 50.f);
+
 constexpr auto CreateScene()
 {
     const std::array objects = {
@@ -31,5 +33,5 @@ constexpr auto CreateScene()
         &whiteSpotLight,
         &yellowSpotLight,
     };
-    return Scene(objects, lights);
+    return Scene(camera, objects, lights);
 }
