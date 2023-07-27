@@ -1,6 +1,7 @@
 #include "Scene.hpp"
 
 #include "cameras/FishEyeCamera.hpp"
+#include "cameras/OrthographicCamera.hpp"
 #include "cameras/PerspectiveCamera.hpp"
 #include "materials/Checkboard.hpp"
 #include "materials/SimpleColor.hpp"
@@ -26,6 +27,7 @@ constexpr SpotLight yellowSpotLight = SpotLight(Colors::yellow, Vector(0.f, 60.f
 constexpr Vector cameraPos = Vector(-100.f, 0.f, 0.f);
 constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundX(Maths::degToRad(0.f));
 constexpr PerspectiveCamera perspCamera = PerspectiveCamera(cameraPos, cameraMatrix, 80.f, 60.f, 50.f);
+constexpr OrthographicCamera orthoCamera = OrthographicCamera(cameraPos, cameraMatrix, 80.f, 60.f);
 
 constexpr float azimuthAngle = Maths::degToRad(80.f);
 constexpr float siteAngle = Maths::degToRad(60.f);
