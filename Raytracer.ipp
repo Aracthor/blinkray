@@ -25,7 +25,6 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         }
 
         const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
-        const Color specularColor = Colors::white;
         for (const SpotLight* light : m_lights)
         {
             const float lightRatioToPoint = 1.f - ShadowFromLight(*intersection, light);
@@ -33,7 +32,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
             const float lightPower = light->LightPower(intersection->position, intersection->normal);
             const float specularPower = light->SpecularPower(position, reflectionDirection);
             pixelColor += objectColor * lightColor * lightRatioToPoint * lightPower;
-            pixelColor += specularColor * lightColor * lightRatioToPoint * specularPower;
+            pixelColor += lightColor * lightRatioToPoint * specularPower;
         }
     }
     return pixelColor;
