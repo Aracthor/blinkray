@@ -11,9 +11,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     if (intersection)
     {
         const Vector position = intersection->position;
-        const Vector dir = ray.dir;
-        const Vector normal = intersection->normal;
-        const Vector reflectionDirection = dir - normal * 2 * Vector::dot(dir, normal);
+        const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
         const Material& material = intersection->object->GetMaterial();
         const float reflectionRatio = material.GetReflection();
         const float surfaceColorRatio = 1.f - reflectionRatio;

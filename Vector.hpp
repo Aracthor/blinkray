@@ -21,6 +21,7 @@ struct Vector
     constexpr Vector operator/(float n) const;
 
     constexpr static float dot(const Vector& u, const Vector& v);
+    constexpr static Vector reflection(const Vector& dir, const Vector& normal);
 };
 
 #include "Vector.ipp"

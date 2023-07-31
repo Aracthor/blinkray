@@ -65,3 +65,8 @@ constexpr float Vector::dot(const Vector& u, const Vector& v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
+
+constexpr Vector Vector::reflection(const Vector& dir, const Vector& normal)
+{
+    return dir - normal * 2 * dot(dir, normal);
+}
