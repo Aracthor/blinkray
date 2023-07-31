@@ -23,7 +23,7 @@ private:
         const Object* object{};
     };
 
-    constexpr float LightPowerOnPoint(const Intersection& intersection, const SpotLight* light) const;
+    constexpr float ShadowFromLight(const Intersection& intersection, const SpotLight* light) const;
 
     constexpr Optional<Intersection> ClosestIntersection(const Ray& ray) const;
 
