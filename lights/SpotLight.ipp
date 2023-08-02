@@ -1,5 +1,5 @@
 constexpr SpotLight::SpotLight(const Color& color, const Vector& position, float power)
-    : m_color(color)
+    : Light(color)
     , m_position(position)
     , m_power(power)
 {
@@ -24,8 +24,9 @@ constexpr float SpotLight::SpecularPower(const Vector& position, const Vector& r
     return specularPower > 0.f ? m_power / distance * Maths::pow(specularPower, 6.f) : 0.f;
 }
 
-constexpr Ray SpotLight::RayToPosition(const Vector& position) const
+constexpr Optional<Light::RayForShadow> SpotLight::RayToPosition(const Vector& position) const
 {
     const Vector lightDirection = position - m_position;
-    return {m_position, lightDirection};
+    const float distanceSq = lightDirection.LengthSq();
+    return Optional<Light::RayForShadow>({{m_position, lightDirection}, distanceSq});
 }

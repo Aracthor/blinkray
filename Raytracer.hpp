@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Color.hpp"
+#include "Light.hpp"
 #include "Object.hpp"
 #include "Optional.hpp"
 #include "Ray.hpp"
-#include "SpotLight.hpp"
 #include "span.hpp"
 
 class Raytracer
 {
 public:
-    constexpr Raytracer(span<const Object*> objects, span<const SpotLight*> lights);
+    constexpr Raytracer(span<const Object*> objects, span<const Light*> lights);
 
     constexpr Color ProjectRay(const Ray& ray) const;
 
@@ -23,12 +23,12 @@ private:
         const Object* object{};
     };
 
-    constexpr float ShadowFromLight(const Intersection& intersection, const SpotLight* light) const;
+    constexpr float ShadowFromLight(const Intersection& intersection, const Light* light) const;
 
-    constexpr Optional<Intersection> ClosestIntersection(const Ray& ray) const;
+    constexpr Optional<Intersection> ClosestIntersection(const Ray& ray, const Object* objectToIgnore = nullptr) const;
 
     span<const Object*> m_objects;
-    span<const SpotLight*> m_lights;
+    span<const Light*> m_lights;
 };
 
 #include "Raytracer.ipp"

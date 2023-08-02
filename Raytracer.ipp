@@ -1,4 +1,4 @@
-constexpr Raytracer::Raytracer(span<const Object*> objects, span<const SpotLight*> lights)
+constexpr Raytracer::Raytracer(span<const Object*> objects, span<const Light*> lights)
     : m_objects(objects)
     , m_lights(lights)
 {
@@ -25,7 +25,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         }
 
         const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
-        for (const SpotLight* light : m_lights)
+        for (const Light* light : m_lights)
         {
             const float lightRatioToPoint = 1.f - ShadowFromLight(*intersection, light);
             const Color lightColor = light->GetColor();
@@ -38,36 +38,45 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     return pixelColor;
 }
 
-constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const Ray& ray) const
+constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const Ray& ray,
+                                                                           const Object* objectToIgnore) const
 {
     Optional<Intersection> result;
     for (const Object* object : m_objects)
     {
-        const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
-        const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
-        if (intersectionDistance)
+        if (object != objectToIgnore)
         {
-            const Matrix rotation = object->GetRotation();
-            const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
-            const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
-            const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
-            const Vector normal = rotation * objectNormal.Normalized();
-            const Coord2D uv = object->GetUV(intersectionInRepere);
-            const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
-            if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                result = {intersectionPoint, normal, uv, object};
+            const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
+            const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
+            if (intersectionDistance)
+            {
+                const Matrix rotation = object->GetRotation();
+                const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
+                const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
+                const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
+                const Vector normal = rotation * objectNormal.Normalized();
+                const Coord2D uv = object->GetUV(intersectionInRepere);
+                const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
+                if (!result || distanceSq < (ray.origin - result->position).LengthSq())
+                    result = {intersectionPoint, normal, uv, object};
+            }
         }
     }
     return result;
 }
 
-constexpr float Raytracer::ShadowFromLight(const Intersection& intersection, const SpotLight* light) const
+constexpr float Raytracer::ShadowFromLight(const Intersection& intersection, const Light* light) const
 {
-    const Ray lightRay = light->RayToPosition(intersection.position);
-    const Optional<Intersection> lightIntersection = ClosestIntersection(lightRay);
-    if (lightIntersection && lightIntersection->object == intersection.object)
+    const Optional<Light::RayForShadow> rayForShadow = light->RayToPosition(intersection.position);
+    if (rayForShadow)
     {
-        return 0.f;
+        const Optional<Intersection> lightIntersection = ClosestIntersection(rayForShadow->ray, intersection.object);
+        if (lightIntersection)
+        {
+            const float distanceSq = (lightIntersection->position - rayForShadow->ray.origin).LengthSq();
+            if (distanceSq < rayForShadow->maxDistanceSq)
+                return 1.f;
+        }
     }
-    return 1.f;
+    return 0.f;
 }
