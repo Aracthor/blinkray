@@ -22,7 +22,7 @@ constexpr SimpleColor bCylindMat = SimpleColor(0.f, Colors::blue);
 
 constexpr Sphere rSphere = Sphere(Vector(50.f, -20.f, 0.f), rSphereRepere, rSphereMat, 30.f);
 constexpr Plane plane = Plane(Vector(0.f, 0.f, -40.f), planeRepere, planeMat);
-constexpr Cylinder bCylinder = Cylinder(Vector(0.f, 30.f, 0.f), bCylindRepere, bCylindMat, 20.f);
+constexpr Cylinder bCylinder = Cylinder(Vector(80.f, -80.f, 0.f), bCylindRepere, bCylindMat, 20.f);
 
 constexpr AmbientLight ambientLight = AmbientLight(Color(0.03f, 0.03f, 0.03f, 1.f));
 constexpr DirectionalLight whiteDirLight = DirectionalLight(Color(0.2f, 0.2f, 0.2f, 1.f), Vector(-0.1f, 0.2f, -0.8f));
@@ -42,6 +42,7 @@ constexpr auto CreateScene()
     const std::array objects = {
         (const Object*)&rSphere,
         (const Object*)&plane,
+        (const Object*)&bCylinder,
     };
     const std::array lights = {
         (const Light*)&ambientLight,
