@@ -5,8 +5,7 @@
 class Sphere final : public Object
 {
 public:
-    constexpr Sphere(const Vector& position, const Matrix& repere, const Material& material,
-                     float radius);
+    constexpr Sphere(const Vector& position, const Matrix& repere, const Material& material, float radius);
 
     constexpr Optional<float> IntersectionDistance(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;
