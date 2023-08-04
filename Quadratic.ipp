@@ -25,7 +25,7 @@ constexpr Optional<float> shortestPositiveResult(float a, float b, float c)
     if (intersectionCount == 0)
         return {};
     if (intersectionCount == 1)
-        return (result1 > 0.f) ? result1 : Optional<Vector>();
+        return (result1 > 0.f) ? Optional<float>(result1) : Optional<float>();
 
     if (result1 < 0.f && result2 < 0.f)
         return {};
