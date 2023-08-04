@@ -118,17 +118,10 @@ constexpr Matrix Matrix::Invert() const
 
 constexpr Vector Matrix::operator*(const Vector& vector) const
 {
-    Vector result = {0.f, 0.f, 0.f};
-    result.x += m_data[0][0] * vector.x;
-    result.x += m_data[0][1] * vector.y;
-    result.x += m_data[0][2] * vector.z;
-    result.y += m_data[1][0] * vector.x;
-    result.y += m_data[1][1] * vector.y;
-    result.y += m_data[1][2] * vector.z;
-    result.z += m_data[2][0] * vector.x;
-    result.z += m_data[2][1] * vector.y;
-    result.z += m_data[2][2] * vector.z;
-    return result;
+    const float x = m_data[0][0] * vector.x + m_data[0][1] * vector.y + m_data[0][2] * vector.z;
+    const float y = m_data[1][0] * vector.x + m_data[1][1] * vector.y + m_data[1][2] * vector.z;
+    const float z = m_data[2][0] * vector.x + m_data[2][1] * vector.y + m_data[2][2] * vector.z;
+    return {x, y, z};
 }
 
 constexpr bool Matrix::operator==(const Matrix& other) const
