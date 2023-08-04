@@ -4,7 +4,7 @@
 
 // Big drawback compared to std::optional : T must have a default initializer,
 // and is default-initialized for nothing in the default constructor.
-// But at least, unlike std::optional, it is fully constexpr even in C++17.
+// However, it tends to have better constexpr performance (meaning better compilation time) than std::optional.
 template <typename T>
 class Optional
 {
