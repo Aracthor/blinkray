@@ -12,8 +12,9 @@ public:
     {
     }
 
-    constexpr Color GetColor(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetColor(uv); }
     constexpr float GetAlbedo(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetAlbedo(uv); }
+    constexpr float GetOpacity(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetOpacity(uv); }
+    constexpr Color GetColor(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetColor(uv); }
 
 private:
     constexpr bool IsPairWithTiling(float u) const

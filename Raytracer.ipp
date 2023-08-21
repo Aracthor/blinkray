@@ -14,6 +14,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
         const Material& material = intersection->object->GetMaterial();
         const float albedo = material.GetAlbedo(intersection->uv);
+        const float opacity = material.GetOpacity(intersection->uv);
         const float surfaceColorRatio = 1.f - albedo;
         if (albedo > 0.f)
         {
@@ -21,7 +22,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
             const Vector reflectionOrigin = position + reflectionDirection * 0.01;
             const Ray reflectedRay = {reflectionOrigin, reflectionDirection};
             const Color reflectedColor = ProjectRay(reflectedRay);
-            pixelColor += reflectedColor * albedo;
+            pixelColor += reflectedColor * albedo * opacity;
         }
 
         const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
@@ -31,8 +32,17 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
             const Color lightColor = light->GetColor();
             const float lightPower = light->LightPower(intersection->position, intersection->normal);
             const float specularPower = light->SpecularPower(position, reflectionDirection);
-            pixelColor += objectColor * lightColor * lightRatioToPoint * lightPower;
-            pixelColor += lightColor * lightRatioToPoint * specularPower;
+            pixelColor += objectColor * lightColor * lightRatioToPoint * lightPower * opacity;
+            pixelColor += lightColor * lightRatioToPoint * specularPower * opacity;
+        }
+
+        const float transparency = 1.f - opacity;
+        if (transparency > 0.f)
+        {
+            // We slightly move the origin to be sure the object won't detect itself.
+            const Vector newRayStart = intersection->position + ray.dir * 0.01;
+            const Ray newRay = {newRayStart, ray.dir};
+            pixelColor += ProjectRay(newRay) * transparency;
         }
     }
     return pixelColor;
