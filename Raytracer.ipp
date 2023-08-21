@@ -13,15 +13,15 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const Vector position = intersection->position;
         const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
         const Material& material = intersection->object->GetMaterial();
-        const float reflectionRatio = material.GetReflection();
-        const float surfaceColorRatio = 1.f - reflectionRatio;
-        if (reflectionRatio > 0.f)
+        const float albedo = material.GetAlbedo();
+        const float surfaceColorRatio = 1.f - albedo;
+        if (albedo > 0.f)
         {
             // We slightly move the origin to be sure the object won't detect itself.
             const Vector reflectionOrigin = position + reflectionDirection * 0.01;
             const Ray reflectedRay = {reflectionOrigin, reflectionDirection};
             const Color reflectedColor = ProjectRay(reflectedRay);
-            pixelColor += reflectedColor * reflectionRatio;
+            pixelColor += reflectedColor * albedo;
         }
 
         const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;

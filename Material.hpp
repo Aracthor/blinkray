@@ -6,15 +6,15 @@
 class Material
 {
 public:
-    constexpr Material(float reflection)
-        : m_reflection(reflection)
+    constexpr Material(float albedo)
+        : m_albedo(albedo)
     {
     }
 
-    constexpr float GetReflection() const { return m_reflection; }
+    constexpr float GetAlbedo() const { return m_albedo; }
 
     virtual constexpr Color GetColor(Coord2D uv) const = 0;
 
 private:
-    const float m_reflection;
+    const float m_albedo;
 };
