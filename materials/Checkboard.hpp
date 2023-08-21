@@ -5,20 +5,15 @@
 class Checkboard final : public Material
 {
 public:
-    constexpr Checkboard(float reflection, const Color& color1, const Color& color2, float tiling)
-        : Material(reflection)
-        , m_color1(color1)
-        , m_color2(color2)
+    constexpr Checkboard(const Material* material1, const Material* material2, float tiling)
+        : m_material1(material1)
+        , m_material2(material2)
         , m_tiling(tiling)
     {
     }
 
-    constexpr Color GetColor(Coord2D uv) const override
-    {
-        const bool pairU = IsPairWithTiling(uv.x);
-        const bool pairV = IsPairWithTiling(uv.y);
-        return (pairU == pairV) ? m_color1 : m_color2;
-    }
+    constexpr Color GetColor(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetColor(uv); }
+    constexpr float GetAlbedo(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetAlbedo(uv); }
 
 private:
     constexpr bool IsPairWithTiling(float u) const
@@ -29,7 +24,14 @@ private:
         return static_cast<int>(tiled) % 2 == 0;
     }
 
-    const Color m_color1;
-    const Color m_color2;
+    constexpr const Material* GetMaterialFromUV(Coord2D uv) const
+    {
+        const bool pairU = IsPairWithTiling(uv.x);
+        const bool pairV = IsPairWithTiling(uv.y);
+        return (pairU == pairV) ? m_material1 : m_material2;
+    }
+
+    const Material* m_material1;
+    const Material* m_material2;
     const float m_tiling;
 };

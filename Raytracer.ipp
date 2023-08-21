@@ -13,7 +13,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const Vector position = intersection->position;
         const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
         const Material& material = intersection->object->GetMaterial();
-        const float albedo = material.GetAlbedo();
+        const float albedo = material.GetAlbedo(intersection->uv);
         const float surfaceColorRatio = 1.f - albedo;
         if (albedo > 0.f)
         {
