@@ -78,15 +78,32 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
 constexpr float Raytracer::ShadowFromLight(const Intersection& intersection, const Light* light) const
 {
     const Optional<Light::RayForShadow> rayForShadow = light->RayToPosition(intersection.position);
-    if (rayForShadow)
+    if (!rayForShadow)
+        return 0.f;
+
+    return ShadowForRay(rayForShadow->ray, rayForShadow->ray.origin, rayForShadow->maxDistanceSq, intersection.object);
+}
+
+constexpr float Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, float maxDistanceSq,
+                                        const Object* objectToIgnore) const
+{
+    float shadow = 0.f;
+    const Optional<Intersection> lightIntersection = ClosestIntersection(ray, objectToIgnore);
+    if (lightIntersection)
     {
-        const Optional<Intersection> lightIntersection = ClosestIntersection(rayForShadow->ray, intersection.object);
-        if (lightIntersection)
+        const float distanceSq = (lightIntersection->position - origin).LengthSq();
+        if (distanceSq < maxDistanceSq)
         {
-            const float distanceSq = (lightIntersection->position - rayForShadow->ray.origin).LengthSq();
-            if (distanceSq < rayForShadow->maxDistanceSq)
-                return 1.f;
+            const Material& objectMaterial = lightIntersection->object->GetMaterial();
+            const float objectOpacity = objectMaterial.GetOpacity(lightIntersection->uv);
+            const float objectTransparency = 1.f - objectOpacity;
+            shadow = objectOpacity;
+            if (objectTransparency > 0.f)
+            {
+                const Ray newRay = {lightIntersection->position + ray.dir * 0.01, ray.dir};
+                shadow += ShadowForRay(newRay, origin, maxDistanceSq, objectToIgnore) * objectTransparency;
+            }
         }
     }
-    return 0.f;
+    return shadow;
 }
