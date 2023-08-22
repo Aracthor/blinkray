@@ -1,16 +1,16 @@
-constexpr Plane::Plane(const Vector& position, const Matrix& rotation, const Material& material)
-    : Object(position, rotation, material)
+constexpr Plane::Plane(const Vector& position, const Matrix& rotation, const Limits& limits, const Material& material)
+    : Object(position, rotation, limits, material)
 {
 }
 
-constexpr Optional<float> Plane::IntersectionDistance(const Ray& ray) const
+constexpr Object::DistancesPair Plane::GetIntersectionDistances(const Ray& ray) const
 {
     if (ray.dir.z == 0.f)
         return {};
     const float t = -ray.origin.z / ray.dir.z;
     if (t <= 0)
         return {};
-    return t;
+    return {Optional<float>(t), {}};
 }
 
 constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& position) const

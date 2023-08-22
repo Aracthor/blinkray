@@ -18,21 +18,27 @@ constexpr int solve(float a, float b, float c, float& result1, float& result2)
     return 2;
 }
 
-constexpr Optional<float> shortestPositiveResult(float a, float b, float c)
+constexpr std::pair<Optional<float>, Optional<float>> sortedPositiveResults(float a, float b, float c)
 {
     float result1 = 0.f, result2 = 0.f;
     const int intersectionCount = solve(a, b, c, result1, result2);
     if (intersectionCount == 0)
         return {};
     if (intersectionCount == 1)
-        return (result1 > 0.f) ? Optional<float>(result1) : Optional<float>();
+    {
+        if (result1 < 0.f)
+            return {};
+        return {Optional<float>(result1), {}};
+    }
 
     if (result1 < 0.f && result2 < 0.f)
         return {};
     if (result1 < 0.f)
-        return result2;
+        return {Optional<float>(result2), {}};
     if (result2 < 0.f)
-        return result1;
-    return std::min(result1, result2);
+        return {Optional<float>(result1), {}};
+    if (result1 > result2)
+        std::swap(result1, result2);
+    return {Optional<float>(result1), Optional<float>(result2)};
 }
 } // namespace Quadratic
