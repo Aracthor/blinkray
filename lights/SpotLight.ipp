@@ -26,7 +26,9 @@ constexpr float SpotLight::SpecularPower(const Vector& position, const Vector& r
 
 constexpr Optional<Light::RayForShadow> SpotLight::RayToPosition(const Vector& position) const
 {
-    const Vector lightDirection = position - m_position;
-    const float distanceSq = lightDirection.LengthSq();
-    return Optional<Light::RayForShadow>({{m_position, lightDirection}, distanceSq});
+    const Vector positionToLight = m_position - position;
+    const float distanceSq = positionToLight.LengthSq();
+    const Vector directionNormalized = positionToLight.Normalized();
+    const Vector rayStart = position + directionNormalized * 0.001;
+    return Optional<Light::RayForShadow>({{rayStart, directionNormalized}, distanceSq});
 }

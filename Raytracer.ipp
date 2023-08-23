@@ -48,28 +48,24 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     return pixelColor;
 }
 
-constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const Ray& ray,
-                                                                           const Object* objectToIgnore) const
+constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const Ray& ray) const
 {
     Optional<Intersection> result;
     for (const Object* object : m_objects)
     {
-        if (object != objectToIgnore)
+        const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
+        const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
+        if (intersectionDistance)
         {
-            const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
-            const Optional<float> intersectionDistance = object->IntersectionDistance(rayInRepere);
-            if (intersectionDistance)
-            {
-                const Matrix rotation = object->GetRotation();
-                const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
-                const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
-                const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
-                const Vector normal = rotation * objectNormal.Normalized();
-                const Coord2D uv = object->GetUV(intersectionInRepere);
-                const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
-                if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                    result = {intersectionPoint, normal, uv, object};
-            }
+            const Matrix rotation = object->GetRotation();
+            const Vector intersectionInRepere = rayInRepere.AtDistance(*intersectionDistance);
+            const Vector intersectionPoint = ray.AtDistance(*intersectionDistance);
+            const Vector objectNormal = object->GetNormal(rayInRepere.origin, intersectionInRepere);
+            const Vector normal = rotation * objectNormal.Normalized();
+            const Coord2D uv = object->GetUV(intersectionInRepere);
+            const float distanceSq = (ray.origin - intersectionPoint).LengthSq();
+            if (!result || distanceSq < (ray.origin - result->position).LengthSq())
+                result = {intersectionPoint, normal, uv, object};
         }
     }
     return result;
@@ -81,14 +77,13 @@ constexpr float Raytracer::ShadowFromLight(const Intersection& intersection, con
     if (!rayForShadow)
         return 0.f;
 
-    return ShadowForRay(rayForShadow->ray, rayForShadow->ray.origin, rayForShadow->maxDistanceSq, intersection.object);
+    return ShadowForRay(rayForShadow->ray, rayForShadow->ray.origin, rayForShadow->maxDistanceSq);
 }
 
-constexpr float Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, float maxDistanceSq,
-                                        const Object* objectToIgnore) const
+constexpr float Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, float maxDistanceSq) const
 {
     float shadow = 0.f;
-    const Optional<Intersection> lightIntersection = ClosestIntersection(ray, objectToIgnore);
+    const Optional<Intersection> lightIntersection = ClosestIntersection(ray);
     if (lightIntersection)
     {
         const float distanceSq = (lightIntersection->position - origin).LengthSq();
@@ -101,7 +96,7 @@ constexpr float Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, fl
             if (objectTransparency > 0.f)
             {
                 const Ray newRay = {lightIntersection->position + ray.dir * 0.01, ray.dir};
-                shadow += ShadowForRay(newRay, origin, maxDistanceSq, objectToIgnore) * objectTransparency;
+                shadow += ShadowForRay(newRay, origin, maxDistanceSq) * objectTransparency;
             }
         }
     }

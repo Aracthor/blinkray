@@ -24,10 +24,9 @@ private:
     };
 
     constexpr float ShadowFromLight(const Intersection& intersection, const Light* light) const;
-    constexpr float ShadowForRay(const Ray& ray, const Vector& origin, float maxDistanceSq,
-                                 const Object* objectToIgnore) const;
+    constexpr float ShadowForRay(const Ray& ray, const Vector& origin, float maxDistanceSq) const;
 
-    constexpr Optional<Intersection> ClosestIntersection(const Ray& ray, const Object* objectToIgnore = nullptr) const;
+    constexpr Optional<Intersection> ClosestIntersection(const Ray& ray) const;
 
     span<const Object*> m_objects;
     span<const Light*> m_lights;

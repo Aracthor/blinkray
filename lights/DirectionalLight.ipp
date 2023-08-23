@@ -23,5 +23,6 @@ constexpr float DirectionalLight::SpecularPower(const Vector& position, const Ve
 
 constexpr Optional<Light::RayForShadow> DirectionalLight::RayToPosition(const Vector& position) const
 {
-    return Optional<Light::RayForShadow>({{position, -m_direction}, std::numeric_limits<float>::max()});
+    const Vector rayStart = position - m_direction * 0.001;
+    return Optional<Light::RayForShadow>({{rayStart, -m_direction}, std::numeric_limits<float>::max()});
 }

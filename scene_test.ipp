@@ -22,7 +22,7 @@ constexpr SimpleColor checkboardBlack = SimpleColor(0.5f, 1.f, Colors::black);
 constexpr Checkboard planeMat = Checkboard(&checkboardWhite, &checkboardBlack, 10.f);
 constexpr SimpleColor bCylindMat = SimpleColor(0.f, 0.5f, Colors::blue);
 
-constexpr Limits sphereLimits = Limits().SetMaxZ(20.f);
+constexpr Limits sphereLimits = Limits().SetMinX(-15.f).SetMaxY(25.f);
 constexpr Sphere rSphere = Sphere(Vector(50.f, -20.f, -10.f), rSphereRepere, sphereLimits, rSphereMat, 30.f);
 constexpr Plane plane = Plane(Vector(0.f, 0.f, -40.f), planeRepere, {}, planeMat);
 constexpr Cylinder bCylinder = Cylinder(Vector(80.f, -80.f, 0.f), bCylindRepere, {}, bCylindMat, 20.f);
