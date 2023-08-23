@@ -13,7 +13,6 @@ public:
 
 private:
     Vector m_direction;
-    float m_directionNorm;
 };
 
 #include "DirectionalLight.ipp"
