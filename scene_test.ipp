@@ -17,7 +17,7 @@ constexpr Matrix planeRepere = Matrix();
 constexpr Matrix bCylindRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(0.f));
 
 constexpr SimpleColor rSphereMat = SimpleColor(0.0f, 1.f, Colors::red);
-constexpr SimpleColor checkboardWhite = SimpleColor(0.5f, 1.f, Colors::white);
+constexpr SimpleColor checkboardWhite = SimpleColor(0.0f, 1.f, Colors::white);
 constexpr SimpleColor checkboardBlack = SimpleColor(0.5f, 1.f, Colors::black);
 constexpr Checkboard planeMat = Checkboard(&checkboardWhite, &checkboardBlack, 10.f);
 constexpr SimpleColor bCylindMat = SimpleColor(0.f, 0.5f, Colors::blue);
