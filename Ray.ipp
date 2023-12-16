@@ -6,7 +6,7 @@ constexpr Ray Ray::Transform(const Vector& position, const Matrix& invertRotatio
     return {newPosition, newDirection};
 }
 
-constexpr Vector Ray::AtDistance(float distance) const
+constexpr Vector Ray::AtDistance(double distance) const
 {
     return origin + dir * distance;
 }

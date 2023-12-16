@@ -23,8 +23,8 @@ private:
         const Object* object{};
     };
 
-    constexpr float ShadowFromLight(const Intersection& intersection, const Light* light) const;
-    constexpr float ShadowForRay(const Ray& ray, const Vector& origin, float maxDistanceSq) const;
+    constexpr double ShadowFromLight(const Intersection& intersection, const Light* light) const;
+    constexpr double ShadowForRay(const Ray& ray, const Vector& origin, double maxDistanceSq) const;
 
     constexpr Optional<Intersection> ClosestIntersection(const Ray& ray) const;
 

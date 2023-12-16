@@ -1,7 +1,7 @@
 #include <limits>
 
-constexpr float limitMin = std::numeric_limits<float>::lowest();
-constexpr float limitMax = std::numeric_limits<float>::max();
+constexpr double limitMin = std::numeric_limits<double>::lowest();
+constexpr double limitMax = std::numeric_limits<double>::max();
 
 constexpr Limits::Limits()
     : m_min(limitMin, limitMin, limitMin)
@@ -9,37 +9,37 @@ constexpr Limits::Limits()
 {
 }
 
-constexpr Limits& Limits::SetMinX(float value)
+constexpr Limits& Limits::SetMinX(double value)
 {
     m_min.x = value;
     return *this;
 }
 
-constexpr Limits& Limits::SetMinY(float value)
+constexpr Limits& Limits::SetMinY(double value)
 {
     m_min.y = value;
     return *this;
 }
 
-constexpr Limits& Limits::SetMinZ(float value)
+constexpr Limits& Limits::SetMinZ(double value)
 {
     m_min.z = value;
     return *this;
 }
 
-constexpr Limits& Limits::SetMaxX(float value)
+constexpr Limits& Limits::SetMaxX(double value)
 {
     m_max.x = value;
     return *this;
 }
 
-constexpr Limits& Limits::SetMaxY(float value)
+constexpr Limits& Limits::SetMaxY(double value)
 {
     m_max.y = value;
     return *this;
 }
 
-constexpr Limits& Limits::SetMaxZ(float value)
+constexpr Limits& Limits::SetMaxZ(double value)
 {
     m_max.z = value;
     return *this;

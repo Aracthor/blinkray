@@ -5,15 +5,15 @@
 class SpotLight final : public Light
 {
 public:
-    constexpr SpotLight(const Color& color, const Vector& position, float power);
+    constexpr SpotLight(const Color& color, const Vector& position, double power);
 
-    constexpr float LightPower(const Vector& position, const Vector& normal) const override;
-    constexpr float SpecularPower(const Vector& position, const Vector& reflectionDirection) const override;
+    constexpr double LightPower(const Vector& position, const Vector& normal) const override;
+    constexpr double SpecularPower(const Vector& position, const Vector& reflectionDirection) const override;
     constexpr Optional<RayForShadow> RayToPosition(const Vector& position) const override;
 
 private:
     Vector m_position;
-    float m_power;
+    double m_power;
 };
 
 #include "SpotLight.ipp"

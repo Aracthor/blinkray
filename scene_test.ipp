@@ -14,30 +14,30 @@
 
 constexpr Matrix rSphereRepere = Matrix();
 constexpr Matrix planeRepere = Matrix();
-constexpr Matrix bCylindRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(0.f));
+constexpr Matrix bCylindRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(0.0));
 
-constexpr SimpleColor rSphereMat = SimpleColor(0.0f, 1.f, Colors::red);
-constexpr SimpleColor checkboardWhite = SimpleColor(0.0f, 1.f, Colors::white);
-constexpr SimpleColor checkboardBlack = SimpleColor(0.5f, 1.f, Colors::black);
-constexpr Checkboard planeMat = Checkboard(&checkboardWhite, &checkboardBlack, 10.f);
-constexpr SimpleColor bCylindMat = SimpleColor(0.f, 0.5f, Colors::blue);
+constexpr SimpleColor rSphereMat = SimpleColor(0.0, 1.0, Colors::red);
+constexpr SimpleColor checkboardWhite = SimpleColor(0.0, 1.0, Colors::white);
+constexpr SimpleColor checkboardBlack = SimpleColor(0.5, 1.0, Colors::black);
+constexpr Checkboard planeMat = Checkboard(&checkboardWhite, &checkboardBlack, 10.0);
+constexpr SimpleColor bCylindMat = SimpleColor(0.0, 0.5, Colors::blue);
 
-constexpr Limits sphereLimits = Limits().SetMinX(-15.f).SetMaxY(25.f);
-constexpr Sphere rSphere = Sphere(Vector(50.f, -20.f, -10.f), rSphereRepere, sphereLimits, rSphereMat, 30.f);
-constexpr Plane plane = Plane(Vector(0.f, 0.f, -40.f), planeRepere, {}, planeMat);
-constexpr Cylinder bCylinder = Cylinder(Vector(80.f, -80.f, 0.f), bCylindRepere, {}, bCylindMat, 20.f);
+constexpr Limits sphereLimits = Limits().SetMinX(-15.0).SetMaxY(25.0);
+constexpr Sphere rSphere = Sphere(Vector(50.0, -20.0, -10.0), rSphereRepere, sphereLimits, rSphereMat, 30.0);
+constexpr Plane plane = Plane(Vector(0.0, 0.0, -40.0), planeRepere, {}, planeMat);
+constexpr Cylinder bCylinder = Cylinder(Vector(80.0, -80.0, 0.0), bCylindRepere, {}, bCylindMat, 20.0);
 
-constexpr AmbientLight ambientLight = AmbientLight(Color(0.03f, 0.03f, 0.03f, 1.f));
-constexpr DirectionalLight whiteDirLight = DirectionalLight(Color(0.2f, 0.2f, 0.2f, 1.f), Vector(-0.1f, 0.2f, -0.8f));
-constexpr SpotLight yellowSpotLight = SpotLight(Colors::yellow, Vector(0.f, 60.f, 40.f), 50.f);
+constexpr AmbientLight ambientLight = AmbientLight(Color(0.03, 0.03, 0.03, 1.0));
+constexpr DirectionalLight whiteDirLight = DirectionalLight(Color(0.2, 0.2, 0.2, 1.0), Vector(-0.1, 0.2, -0.8));
+constexpr SpotLight yellowSpotLight = SpotLight(Colors::yellow, Vector(0.0, 60.0, 40.0), 50.0);
 
-constexpr Vector cameraPos = Vector(-100.f, 0.f, 0.f);
-constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundX(Maths::degToRad(0.f));
-constexpr PerspectiveCamera perspCamera = PerspectiveCamera(cameraPos, cameraMatrix, 80.f, 60.f, 50.f);
-constexpr OrthographicCamera orthoCamera = OrthographicCamera(cameraPos, cameraMatrix, 80.f, 60.f);
+constexpr Vector cameraPos = Vector(-100.0, 0.0, 0.0);
+constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundX(Maths::degToRad(0.0));
+constexpr PerspectiveCamera perspCamera = PerspectiveCamera(cameraPos, cameraMatrix, 80.0, 60.0, 50.0);
+constexpr OrthographicCamera orthoCamera = OrthographicCamera(cameraPos, cameraMatrix, 80.0, 60.0);
 
-constexpr float azimuthAngle = Maths::degToRad(80.f);
-constexpr float siteAngle = Maths::degToRad(60.f);
+constexpr double azimuthAngle = Maths::degToRad(80.0);
+constexpr double siteAngle = Maths::degToRad(60.0);
 constexpr FishEyeCamera fishEyeCamera = FishEyeCamera(cameraPos, cameraMatrix, azimuthAngle, siteAngle);
 
 constexpr auto CreateScene()

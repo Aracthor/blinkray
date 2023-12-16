@@ -7,7 +7,7 @@ constexpr Object::Object(const Vector& position, const Matrix& rotation, const L
 {
 }
 
-constexpr Optional<float> Object::IntersectionDistance(const Ray& ray) const
+constexpr Optional<double> Object::IntersectionDistance(const Ray& ray) const
 {
     const DistancesPair distances = GetIntersectionDistances(ray);
     if (distances.first && m_limits.Contains(ray.AtDistance(*distances.first)))

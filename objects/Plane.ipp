@@ -5,18 +5,18 @@ constexpr Plane::Plane(const Vector& position, const Matrix& rotation, const Lim
 
 constexpr Object::DistancesPair Plane::GetIntersectionDistances(const Ray& ray) const
 {
-    if (ray.dir.z == 0.f)
+    if (ray.dir.z == 0.0)
         return {};
-    const float t = -ray.origin.z / ray.dir.z;
+    const double t = -ray.origin.z / ray.dir.z;
     if (t <= 0)
         return {};
-    return {Optional<float>(t), {}};
+    return {Optional<double>(t), {}};
 }
 
 constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
-    const float z = rayOrigin.z > 0.f ? 1.f : -1.f;
-    return Vector(0.f, 0.f, z);
+    const double z = rayOrigin.z > 0.0 ? 1.0 : -1.0;
+    return Vector(0.0, 0.0, z);
 }
 
 constexpr Coord2D Plane::GetUV(const Vector& position) const

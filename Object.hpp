@@ -20,13 +20,13 @@ public:
     constexpr const Matrix& GetInvertRotation() const { return m_invertRotation; }
     constexpr const Material& GetMaterial() const { return m_material; }
 
-    constexpr Optional<float> IntersectionDistance(const Ray& ray) const;
+    constexpr Optional<double> IntersectionDistance(const Ray& ray) const;
 
     constexpr virtual Vector GetNormal(const Vector& rayOrigin, const Vector& position) const = 0;
     constexpr virtual Coord2D GetUV(const Vector& position) const = 0;
 
 protected:
-    using DistancesPair = std::pair<Optional<float>, Optional<float>>;
+    using DistancesPair = std::pair<Optional<double>, Optional<double>>;
     constexpr virtual DistancesPair GetIntersectionDistances(const Ray& ray) const = 0;
 
 private:

@@ -21,8 +21,8 @@ constexpr auto ProcessImage()
     {
         for (int x = 0; x < imageWidth; x++)
         {
-            const float pixelX = float(x - imageWidth / 2) / float(imageWidth);
-            const float pixelY = float(imageHeight / 2 - y) / float(imageHeight);
+            const double pixelX = double(x - imageWidth / 2) / double(imageWidth);
+            const double pixelY = double(imageHeight / 2 - y) / double(imageHeight);
             const Ray ray = camera->GetRay(pixelX, pixelY);
             const Ray transformedRay = ray.Transform(-camera->Position(), camera->InvertRotation());
             const Color pixelColor = raytracer.ProjectRay(transformedRay);

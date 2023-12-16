@@ -1,9 +1,9 @@
 #include "Maths.hpp"
 
-constexpr Matrix Matrix::RotationMatrixAroundX(float angle)
+constexpr Matrix Matrix::RotationMatrixAroundX(double angle)
 {
-    const float cosinus = Maths::cos(angle);
-    const float sinus = Maths::sin(angle);
+    const double cosinus = Maths::cos(angle);
+    const double sinus = Maths::sin(angle);
 
     Matrix matrix;
     matrix[1][1] = cosinus;
@@ -13,10 +13,10 @@ constexpr Matrix Matrix::RotationMatrixAroundX(float angle)
     return matrix;
 }
 
-constexpr Matrix Matrix::RotationMatrixAroundY(float angle)
+constexpr Matrix Matrix::RotationMatrixAroundY(double angle)
 {
-    const float cosinus = Maths::cos(angle);
-    const float sinus = Maths::sin(angle);
+    const double cosinus = Maths::cos(angle);
+    const double sinus = Maths::sin(angle);
 
     Matrix matrix;
     matrix[0][0] = cosinus;
@@ -26,10 +26,10 @@ constexpr Matrix Matrix::RotationMatrixAroundY(float angle)
     return matrix;
 }
 
-constexpr Matrix Matrix::RotationMatrixAroundZ(float angle)
+constexpr Matrix Matrix::RotationMatrixAroundZ(double angle)
 {
-    const float cosinus = Maths::cos(angle);
-    const float sinus = Maths::sin(angle);
+    const double cosinus = Maths::cos(angle);
+    const double sinus = Maths::sin(angle);
 
     Matrix matrix;
     matrix[0][0] = cosinus;
@@ -42,9 +42,9 @@ constexpr Matrix Matrix::RotationMatrixAroundZ(float angle)
 constexpr Matrix::Matrix()
     : m_data{}
 {
-    m_data[0][0] = 1.f;
-    m_data[1][1] = 1.f;
-    m_data[2][2] = 1.f;
+    m_data[0][0] = 1.0;
+    m_data[1][1] = 1.0;
+    m_data[2][2] = 1.0;
 }
 
 constexpr Matrix::Matrix(const Vector& row0, const Vector& row1, const Vector& row2)
@@ -61,11 +61,11 @@ constexpr Matrix::Matrix(const Vector& row0, const Vector& row1, const Vector& r
     m_data[2][2] = row2.z;
 }
 
-constexpr float Matrix::Determinant() const
+constexpr double Matrix::Determinant() const
 {
-    const float square0 = m_data[1][1] * m_data[2][2] - m_data[2][1] * m_data[1][2];
-    const float square1 = m_data[1][0] * m_data[2][2] - m_data[2][0] * m_data[1][2];
-    const float square2 = m_data[1][0] * m_data[2][1] - m_data[2][0] * m_data[1][1];
+    const double square0 = m_data[1][1] * m_data[2][2] - m_data[2][1] * m_data[1][2];
+    const double square1 = m_data[1][0] * m_data[2][2] - m_data[2][0] * m_data[1][2];
+    const double square2 = m_data[1][0] * m_data[2][1] - m_data[2][0] * m_data[1][1];
     return m_data[0][0] * square0 - m_data[0][1] * square1 + m_data[0][2] * square2;
 }
 
@@ -102,7 +102,7 @@ constexpr Matrix Matrix::Adjoint() const
 
 constexpr Matrix Matrix::Invert() const
 {
-    const float determinant = Determinant();
+    const double determinant = Determinant();
     Matrix result = Adjoint();
     result[0][0] /= determinant;
     result[0][1] /= determinant;
@@ -118,9 +118,9 @@ constexpr Matrix Matrix::Invert() const
 
 constexpr Vector Matrix::operator*(const Vector& vector) const
 {
-    const float x = m_data[0][0] * vector.x + m_data[0][1] * vector.y + m_data[0][2] * vector.z;
-    const float y = m_data[1][0] * vector.x + m_data[1][1] * vector.y + m_data[1][2] * vector.z;
-    const float z = m_data[2][0] * vector.x + m_data[2][1] * vector.y + m_data[2][2] * vector.z;
+    const double x = m_data[0][0] * vector.x + m_data[0][1] * vector.y + m_data[0][2] * vector.z;
+    const double y = m_data[1][0] * vector.x + m_data[1][1] * vector.y + m_data[1][2] * vector.z;
+    const double z = m_data[2][0] * vector.x + m_data[2][1] * vector.y + m_data[2][2] * vector.z;
     return {x, y, z};
 }
 

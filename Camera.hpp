@@ -13,7 +13,7 @@ public:
     constexpr const Matrix& InvertRotation() const { return m_invertRotation; }
 
     // Both of those params are between -0.5 and 0.5
-    virtual constexpr Ray GetRay(float pixelX, float pixelY) const = 0;
+    virtual constexpr Ray GetRay(double pixelX, double pixelY) const = 0;
 
 private:
     Vector m_position;

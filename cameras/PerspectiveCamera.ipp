@@ -1,5 +1,5 @@
-constexpr PerspectiveCamera::PerspectiveCamera(const Vector& position, const Matrix& rotation, float fowWidth,
-                                               float fowHeight, float fowDistance)
+constexpr PerspectiveCamera::PerspectiveCamera(const Vector& position, const Matrix& rotation, double fowWidth,
+                                               double fowHeight, double fowDistance)
     : Camera(position, rotation)
     , m_fowWidth(fowWidth)
     , m_fowHeight(fowHeight)
@@ -7,12 +7,12 @@ constexpr PerspectiveCamera::PerspectiveCamera(const Vector& position, const Mat
 {
 }
 
-constexpr Ray PerspectiveCamera::GetRay(float pixelX, float pixelY) const
+constexpr Ray PerspectiveCamera::GetRay(double pixelX, double pixelY) const
 {
-    const Vector origin = {0.f, 0.f, 0.f};
-    const float targetX = m_fowDistance;
-    const float targetY = pixelX * m_fowWidth;
-    const float targetZ = pixelY * m_fowHeight;
+    const Vector origin = {0.0, 0.0, 0.0};
+    const double targetX = m_fowDistance;
+    const double targetY = pixelX * m_fowWidth;
+    const double targetZ = pixelY * m_fowHeight;
     const Vector target = Vector(targetX, targetY, targetZ);
     return {origin, target.Normalized()};
 }

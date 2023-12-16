@@ -7,12 +7,12 @@ class Limits
 public:
     constexpr Limits();
 
-    constexpr Limits& SetMinX(float value);
-    constexpr Limits& SetMinY(float value);
-    constexpr Limits& SetMinZ(float value);
-    constexpr Limits& SetMaxX(float value);
-    constexpr Limits& SetMaxY(float value);
-    constexpr Limits& SetMaxZ(float value);
+    constexpr Limits& SetMinX(double value);
+    constexpr Limits& SetMinY(double value);
+    constexpr Limits& SetMinZ(double value);
+    constexpr Limits& SetMaxX(double value);
+    constexpr Limits& SetMaxY(double value);
+    constexpr Limits& SetMaxZ(double value);
 
     constexpr bool Contains(const Vector& point) const;
 

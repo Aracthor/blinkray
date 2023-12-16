@@ -2,10 +2,10 @@
 
 struct Color
 {
-    float r;
-    float g;
-    float b;
-    float a;
+    double r;
+    double g;
+    double b;
+    double a;
 
     constexpr Color()
         : r(0)
@@ -15,7 +15,7 @@ struct Color
     {
     }
 
-    constexpr Color(float r, float g, float b, float a)
+    constexpr Color(double r, double g, double b, double a)
         : r(r)
         , g(g)
         , b(b)
@@ -26,17 +26,17 @@ struct Color
     constexpr Color& operator+=(const Color& other);
     constexpr Color operator*(const Color& other) const;
 
-    constexpr Color operator*(float n) const;
+    constexpr Color operator*(double n) const;
 };
 
 namespace Colors
 {
-constexpr Color red = Color(1.f, 0.f, 0.f, 1.f);
-constexpr Color green = Color(0.f, 1.f, 0.f, 1.f);
-constexpr Color blue = Color(0.f, 0.f, 1.f, 1.f);
-constexpr Color yellow = Color(1.f, 1.f, 0.f, 1.f);
-constexpr Color white = Color(1.f, 1.f, 1.f, 1.f);
-constexpr Color black = Color(0.f, 0.f, 0.f, 1.f);
+constexpr Color red = Color(1.0, 0.0, 0.0, 1.0);
+constexpr Color green = Color(0.0, 1.0, 0.0, 1.0);
+constexpr Color blue = Color(0.0, 0.0, 1.0, 1.0);
+constexpr Color yellow = Color(1.0, 1.0, 0.0, 1.0);
+constexpr Color white = Color(1.0, 1.0, 1.0, 1.0);
+constexpr Color black = Color(0.0, 0.0, 0.0, 1.0);
 } // namespace Colors
 
 #include "Color.ipp"

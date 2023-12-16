@@ -2,28 +2,28 @@
 
 struct Vector
 {
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 
     constexpr Vector();
-    constexpr Vector(float x, float y, float z);
+    constexpr Vector(double x, double y, double z);
     constexpr Vector(const Vector& other);
 
-    constexpr float LengthSq() const;
-    constexpr float Length() const;
+    constexpr double LengthSq() const;
+    constexpr double Length() const;
     constexpr Vector Normalized() const;
 
     constexpr Vector operator-() const;
     constexpr Vector operator+(const Vector& other) const;
     constexpr Vector operator-(const Vector& other) const;
-    constexpr Vector operator*(float n) const;
-    constexpr Vector operator/(float n) const;
+    constexpr Vector operator*(double n) const;
+    constexpr Vector operator/(double n) const;
 
-    constexpr static float dot(const Vector& u, const Vector& v);
+    constexpr static double dot(const Vector& u, const Vector& v);
     constexpr static Vector reflection(const Vector& dir, const Vector& normal);
 };
 
 #include "Vector.ipp"
 
-static_assert(Vector(3.f, 4.f, 0.f).Length() == 5.f);
+static_assert(Vector(3.0, 4.0, 0.0).Length() == 5.0);

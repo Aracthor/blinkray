@@ -3,14 +3,14 @@ constexpr AmbientLight::AmbientLight(const Color& color)
 {
 }
 
-constexpr float AmbientLight::LightPower(const Vector& position, const Vector& normal) const
+constexpr double AmbientLight::LightPower(const Vector& position, const Vector& normal) const
 {
-    return 1.f;
+    return 1.0;
 }
 
-constexpr float AmbientLight::SpecularPower(const Vector& position, const Vector& reflectionDirection) const
+constexpr double AmbientLight::SpecularPower(const Vector& position, const Vector& reflectionDirection) const
 {
-    return 0.f;
+    return 0.0;
 }
 
 constexpr Optional<Light::RayForShadow> AmbientLight::RayToPosition(const Vector& position) const

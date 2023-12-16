@@ -10,7 +10,7 @@ struct Ray
 
     constexpr Ray Transform(const Vector& position, const Matrix& invertRotation) const;
 
-    constexpr Vector AtDistance(float distance) const;
+    constexpr Vector AtDistance(double distance) const;
 };
 
 #include "Ray.ipp"

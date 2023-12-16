@@ -5,14 +5,14 @@
 class OrthographicCamera final : public Camera
 {
 public:
-    constexpr OrthographicCamera(const Vector& position, const Matrix& rotation, float width, float height);
+    constexpr OrthographicCamera(const Vector& position, const Matrix& rotation, double width, double height);
 
     // Both of those params are between -0.5 and 0.5
-    constexpr Ray GetRay(float pixelX, float pixelY) const override;
+    constexpr Ray GetRay(double pixelX, double pixelY) const override;
 
 private:
-    float m_width;
-    float m_height;
+    double m_width;
+    double m_height;
 };
 
 #include "OrthographicCamera.ipp"

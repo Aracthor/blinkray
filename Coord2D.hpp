@@ -2,6 +2,6 @@
 
 struct Coord2D
 {
-    float x;
-    float y;
+    double x;
+    double y;
 };
