@@ -7,7 +7,7 @@ then
 fi
 
 echo "Compiling..."
-if clang++ -std=c++20 -fconstexpr-steps=0x4000000 -Wall -Werror -I . -DSCENE_FILE=\"$scene_file\" main.cpp -o blink
+if clang++ -std=c++20 -fconstexpr-steps=0x4000000 -Wall -Werror -I srcs/ -DSCENE_FILE=\"../scenes/$scene_file\" srcs/main.cpp -o blink
 then
     echo "Running..."
     ./blink > output.bmp
