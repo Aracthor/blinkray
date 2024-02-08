@@ -2,9 +2,13 @@
 #include "Raytracer.hpp"
 #include "Scene.hpp"
 
-#include "scene_test.ipp"
-
 #include <unistd.h>
+
+#ifndef SCENE_FILE
+#error "scene file must be indicated through macro SCENE_FILE."
+#else
+#include SCENE_FILE
+#endif
 
 constexpr int imageWidth = 80;
 constexpr int imageHeight = 60;
