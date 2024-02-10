@@ -43,16 +43,16 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, Color 
     data[writeIndex++] = (char)((unsigned char)(c.a * 255));
 }
 
-struct __attribute__((packed)) BmpPV4Header
+struct __attribute__((packed)) BmpPV5Header
 {
-    constexpr BmpPV4Header(int width, int height)
+    constexpr BmpPV5Header(int width, int height)
         : width(width)
         , height(height)
         , rawDataSize(width * height * pixelSize)
     {
     }
 
-    uint32_t headerSize = sizeof(BmpPV4Header);
+    uint32_t headerSize = sizeof(BmpPV5Header);
     int32_t width;
     int32_t height;
     uint16_t planes = 1;
@@ -72,6 +72,10 @@ struct __attribute__((packed)) BmpPV4Header
     uint32_t gammaRed = 0;
     uint32_t gammaGreen = 0;
     uint32_t gammaBlue = 0;
+    uint32_t intent = 0x4; // LCS_GM_ABS_COLORIMETRIC
+    uint32_t profileData = 0;
+    uint32_t profileSize = 0;
+    uint32_t reserved = 0;
 };
 
 struct __attribute__((packed)) BmpHeader
@@ -85,7 +89,7 @@ struct __attribute__((packed)) BmpHeader
     uint32_t size;
     uint16_t app1 = 0;
     uint16_t app2 = 0;
-    uint32_t offset = sizeof(BmpHeader) + sizeof(BmpPV4Header);
+    uint32_t offset = sizeof(BmpHeader) + sizeof(BmpPV5Header);
 };
 
 template <std::size_t SIZE>
@@ -99,7 +103,7 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const 
 }
 
 template <std::size_t SIZE>
-constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const BmpPV4Header& infoHeader)
+constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const BmpPV5Header& infoHeader)
 {
     WriteInData(data, writeIndex, infoHeader.headerSize);
     WriteInData(data, writeIndex, infoHeader.width);
@@ -121,14 +125,18 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const 
     WriteInData(data, writeIndex, infoHeader.gammaRed);
     WriteInData(data, writeIndex, infoHeader.gammaGreen);
     WriteInData(data, writeIndex, infoHeader.gammaBlue);
+    WriteInData(data, writeIndex, infoHeader.intent);
+    WriteInData(data, writeIndex, infoHeader.profileData);
+    WriteInData(data, writeIndex, infoHeader.profileSize);
+    WriteInData(data, writeIndex, infoHeader.reserved);
 }
 
 template <int WIDTH, int HEIGHT>
 constexpr auto Image<WIDTH, HEIGHT>::ToBitmapFile() const
 {
-    constexpr int size = sizeof(BmpHeader) + sizeof(BmpPV4Header) + pixelSize * WIDTH * HEIGHT;
+    constexpr int size = sizeof(BmpHeader) + sizeof(BmpPV5Header) + pixelSize * WIDTH * HEIGHT;
     BmpHeader header = BmpHeader(size);
-    BmpPV4Header infoHeader = BmpPV4Header(WIDTH, HEIGHT);
+    BmpPV5Header infoHeader = BmpPV5Header(WIDTH, HEIGHT);
     std::array<char, size> data = {};
     int writeIndex = 0;
     WriteInData(data, writeIndex, header);
