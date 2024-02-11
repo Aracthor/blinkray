@@ -16,6 +16,15 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, uint16
     data[writeIndex++] = (char)(n >> 8);
 }
 
+template <const uint8_t* DATA, typename T>
+constexpr typename std::enable_if<std::is_same<T, uint16_t>::value, uint16_t>::type ReadFromData(int& readIndex)
+{
+    uint16_t result = 0;
+    result += (uint16_t)(DATA[readIndex++]) << 0;
+    result += (uint16_t)(DATA[readIndex++]) << 8;
+    return result;
+}
+
 template <std::size_t SIZE>
 constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, uint32_t n)
 {
@@ -23,6 +32,17 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, uint32
     data[writeIndex++] = (char)(n >> 8);
     data[writeIndex++] = (char)(n >> 16);
     data[writeIndex++] = (char)(n >> 24);
+}
+
+template <const uint8_t* DATA, typename T>
+constexpr typename std::enable_if<std::is_same<T, uint32_t>::value, uint32_t>::type ReadFromData(int& readIndex)
+{
+    uint32_t result = 0;
+    result += (uint32_t)(DATA[readIndex++]) << 0;
+    result += (uint32_t)(DATA[readIndex++]) << 8;
+    result += (uint32_t)(DATA[readIndex++]) << 16;
+    result += (uint32_t)(DATA[readIndex++]) << 24;
+    return result;
 }
 
 template <std::size_t SIZE>
@@ -34,6 +54,17 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, int32_
     data[writeIndex++] = (char)(n >> 24);
 }
 
+template <const uint8_t* DATA, typename T>
+constexpr typename std::enable_if<std::is_same<T, int32_t>::value, int32_t>::type ReadFromData(int& readIndex)
+{
+    int32_t result = 0;
+    result += (int32_t)(DATA[readIndex++]) << 0;
+    result += (int32_t)(DATA[readIndex++]) << 8;
+    result += (int32_t)(DATA[readIndex++]) << 16;
+    result += (int32_t)(DATA[readIndex++]) << 24;
+    return result;
+}
+
 template <std::size_t SIZE>
 constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, Color c)
 {
@@ -43,8 +74,20 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, Color 
     data[writeIndex++] = (char)((unsigned char)(c.a * 255));
 }
 
+template <const uint8_t* DATA, typename T>
+constexpr typename std::enable_if<std::is_same<T, Color>::value, Color>::type ReadFromData(int readIndex)
+{
+    Color result;
+    result.b = (float)(DATA[readIndex++]) / 255.f;
+    result.g = (float)(DATA[readIndex++]) / 255.f;
+    result.r = (float)(DATA[readIndex++]) / 255.f;
+    result.a = (float)(DATA[readIndex++]) / 255.f;
+    return result;
+}
+
 struct __attribute__((packed)) BmpPV5Header
 {
+    constexpr BmpPV5Header() = default;
     constexpr BmpPV5Header(int width, int height)
         : width(width)
         , height(height)
@@ -80,6 +123,7 @@ struct __attribute__((packed)) BmpPV5Header
 
 struct __attribute__((packed)) BmpHeader
 {
+    constexpr BmpHeader() = default;
     constexpr BmpHeader(int size)
         : size(size)
     {
@@ -100,6 +144,18 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const 
     WriteInData(data, writeIndex, header.app1);
     WriteInData(data, writeIndex, header.app2);
     WriteInData(data, writeIndex, header.offset);
+}
+
+template <const uint8_t* DATA, typename T>
+constexpr typename std::enable_if<std::is_same<T, BmpHeader>::value, BmpHeader>::type ReadFromData(int readIndex)
+{
+    BmpHeader header;
+    header.magic = ReadFromData<DATA, uint16_t>(readIndex);
+    header.size = ReadFromData<DATA, uint32_t>(readIndex);
+    header.app1 = ReadFromData<DATA, uint16_t>(readIndex);
+    header.app2 = ReadFromData<DATA, uint16_t>(readIndex);
+    header.offset = ReadFromData<DATA, uint32_t>(readIndex);
+    return header;
 }
 
 template <std::size_t SIZE>
@@ -131,6 +187,53 @@ constexpr void WriteInData(std::array<char, SIZE>& data, int& writeIndex, const 
     WriteInData(data, writeIndex, infoHeader.reserved);
 }
 
+template <const uint8_t* DATA, typename T>
+constexpr typename std::enable_if<std::is_same<T, BmpPV5Header>::value, BmpPV5Header>::type ReadFromData(int readIndex)
+{
+    BmpPV5Header infoHeader;
+    infoHeader.headerSize = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.width = ReadFromData<DATA, int32_t>(readIndex);
+    infoHeader.height = ReadFromData<DATA, int32_t>(readIndex);
+    infoHeader.planes = ReadFromData<DATA, uint16_t>(readIndex);
+    infoHeader.bpp = ReadFromData<DATA, uint16_t>(readIndex);
+    infoHeader.compression = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.rawDataSize = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.hResolution = ReadFromData<DATA, int32_t>(readIndex);
+    infoHeader.vResolution = ReadFromData<DATA, int32_t>(readIndex);
+    infoHeader.paletteSize = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.importantColors = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.channelMaskRed = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.channelMaskGreen = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.channelMaskBlue = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.channelMaskAlpha = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.csType = ReadFromData<DATA, uint32_t>(readIndex);
+    for (int i = 0; i < 0x24; i++)
+        infoHeader.colorSpaceEndpoints[i] = (uint8_t)DATA[readIndex++];
+    infoHeader.gammaRed = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.gammaGreen = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.gammaBlue = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.intent = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.profileData = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.profileSize = ReadFromData<DATA, uint32_t>(readIndex);
+    infoHeader.reserved = ReadFromData<DATA, uint32_t>(readIndex);
+    return infoHeader;
+}
+
+template <const char* DATA, int WIDTH, int HEIGHT>
+constexpr void ReadPixels(Image<WIDTH, HEIGHT>& image)
+{
+    int readIndex = sizeof(BmpHeader) + sizeof(BmpPV5Header);
+    for (int y = HEIGHT - 1; y >= 0; y--)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            Color color = ReadFromData<DATA, Color>(readIndex);
+            image.SetPixel(x, y, color);
+            readIndex += sizeof(Color);
+        }
+    }
+}
+
 template <int WIDTH, int HEIGHT>
 constexpr auto Image<WIDTH, HEIGHT>::ToBitmapFile() const
 {
@@ -147,4 +250,28 @@ constexpr auto Image<WIDTH, HEIGHT>::ToBitmapFile() const
             WriteInData(data, writeIndex, m_pixels[y * WIDTH + x]);
     }
     return data;
+}
+
+template <const uint8_t* DATA>
+constexpr static auto ImageFromBitmapFile()
+{
+    constexpr BmpHeader header = ReadFromData<DATA, BmpHeader>(0);
+    static_assert(header.magic == 0x4D42);
+    static_assert(header.offset == sizeof(BmpHeader) + sizeof(BmpPV5Header));
+
+    constexpr BmpPV5Header infoHeader = ReadFromData<DATA, BmpPV5Header>(sizeof(BmpHeader));
+    static_assert(header.size ==
+                  sizeof(BmpHeader) + sizeof(BmpPV5Header) + pixelSize * infoHeader.width * infoHeader.height);
+
+    auto image = Image<infoHeader.width, infoHeader.height>();
+    for (int y = 0; y < infoHeader.height; y++)
+    {
+        for (int x = 0; x < infoHeader.width; x++)
+        {
+            const int pixelIndex = header.offset + (y * infoHeader.width + x) * pixelSize;
+            const Color color = ReadFromData<DATA, Color>(pixelIndex);
+            image.SetPixel(x, infoHeader.height - 1 - y, color);
+        }
+    }
+    return image;
 }

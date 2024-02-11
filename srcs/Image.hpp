@@ -14,4 +14,7 @@ private:
     Color m_pixels[WIDTH * HEIGHT];
 };
 
+template <const uint8_t* DATA>
+constexpr static auto ImageFromBitmapFile();
+
 #include "Image.ipp"
