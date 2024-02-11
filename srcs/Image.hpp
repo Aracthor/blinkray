@@ -8,6 +8,7 @@ class Image
 public:
     constexpr auto ToBitmapFile() const;
 
+    constexpr Color GetPixel(int x, int y) const { return m_pixels[WIDTH * y + x]; }
     constexpr void SetPixel(int x, int y, Color color) { m_pixels[WIDTH * y + x] = color; }
 
 private:
