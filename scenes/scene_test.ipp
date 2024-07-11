@@ -22,10 +22,15 @@ constexpr SimpleColor checkboardBlack = SimpleColor(0.5, 1.0, Colors::black);
 constexpr Checkboard planeMat = Checkboard(&checkboardWhite, &checkboardBlack, 10.0);
 constexpr SimpleColor bCylindMat = SimpleColor(0.0, 0.5, Colors::blue);
 
-constexpr Limits sphereLimits = Limits().SetMinX(-15.0).SetMaxY(25.0);
-constexpr Sphere rSphere = Sphere(Vector(50.0, -20.0, -10.0), rSphereRepere, sphereLimits, rSphereMat, 30.0);
-constexpr Plane plane = Plane(Vector(0.0, 0.0, -40.0), planeRepere, {}, planeMat);
-constexpr Cylinder bCylinder = Cylinder(Vector(80.0, -80.0, 0.0), bCylindRepere, {}, bCylindMat, 20.0);
+constexpr Sphere rSphere = []
+{
+    Sphere sphere(Vector(50.0, -20.0, -10.0), rSphereRepere, rSphereMat, 30.0);
+    sphere.SetLimits().SetMinX(-15.0);
+    sphere.SetLimits().SetMaxY(25.0);
+    return sphere;
+}();
+constexpr Plane plane = Plane(Vector(0.0, 0.0, -40.0), planeRepere, planeMat);
+constexpr Cylinder bCylinder = Cylinder(Vector(80.0, -80.0, 0.0), bCylindRepere, bCylindMat, 20.0);
 
 constexpr AmbientLight ambientLight = AmbientLight(Color(0.03, 0.03, 0.03, 1.0));
 constexpr DirectionalLight whiteDirLight = DirectionalLight(Color(0.2, 0.2, 0.2, 1.0), Vector(-0.1, 0.2, -0.8));

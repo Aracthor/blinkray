@@ -1,8 +1,7 @@
-constexpr Object::Object(const Vector& position, const Matrix& rotation, const Limits& limits, const Material& material)
+constexpr Object::Object(const Vector& position, const Matrix& rotation, const Material& material)
     : m_position(position)
     , m_rotation(rotation)
     , m_invertRotation(rotation.Invert())
-    , m_limits(limits)
     , m_material(material)
 {
 }

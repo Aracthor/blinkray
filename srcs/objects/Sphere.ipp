@@ -1,8 +1,7 @@
 #include "Quadratic.hpp"
 
-constexpr Sphere::Sphere(const Vector& position, const Matrix& rotation, const Limits& limits, const Material& material,
-                         double radius)
-    : Object(position, rotation, limits, material)
+constexpr Sphere::Sphere(const Vector& position, const Matrix& rotation, const Material& material, double radius)
+    : Object(position, rotation, material)
     , m_radiusSq(radius * radius)
 {
 }

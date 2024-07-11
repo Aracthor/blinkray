@@ -13,12 +13,14 @@
 class Object
 {
 public:
-    constexpr Object(const Vector& position, const Matrix& rotation, const Limits& limits, const Material& material);
+    constexpr Object(const Vector& position, const Matrix& rotation, const Material& material);
 
     constexpr const Vector& GetPosition() const { return m_position; }
     constexpr const Matrix& GetRotation() const { return m_rotation; }
     constexpr const Matrix& GetInvertRotation() const { return m_invertRotation; }
     constexpr const Material& GetMaterial() const { return m_material; }
+
+    constexpr Limits& SetLimits() { return m_limits; }
 
     constexpr Optional<double> IntersectionDistance(const Ray& ray) const;
 

@@ -15,7 +15,7 @@ constexpr Matrix planeRepere = Matrix();
 
 constexpr Textured planeMat = Textured(tile_square_pool_color_texture, 100.0, 0.0);
 
-constexpr Plane plane = Plane(Vector(0.0, 0.0, -50.0), planeRepere, {}, planeMat);
+constexpr Plane plane = Plane(Vector(0.0, 0.0, -50.0), planeRepere, planeMat);
 
 constexpr AmbientLight ambientLight = AmbientLight(Color(0.03, 0.03, 0.03, 1.0));
 constexpr SpotLight spotLight = SpotLight(Colors::white, Vector(0.0, 60.0, 40.0), 50.0);
