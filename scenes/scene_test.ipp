@@ -25,8 +25,10 @@ constexpr SimpleColor bCylindMat = SimpleColor(0.0, 0.5, Colors::blue);
 constexpr Sphere rSphere = []
 {
     Sphere sphere(Vector(50.0, -20.0, -10.0), rSphereRepere, rSphereMat, 30.0);
-    sphere.SetLimits().SetMinX(-15.0);
-    sphere.SetLimits().SetMaxY(25.0);
+    Box box;
+    box.SetMinX(-15.0);
+    box.SetMaxY(25.0);
+    sphere.SetLimits(Limits(box));
     return sphere;
 }();
 constexpr Plane plane = Plane(Vector(0.0, 0.0, -40.0), planeRepere, planeMat);

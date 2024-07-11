@@ -20,7 +20,7 @@ public:
     constexpr const Matrix& GetInvertRotation() const { return m_invertRotation; }
     constexpr const Material& GetMaterial() const { return m_material; }
 
-    constexpr Limits& SetLimits() { return m_limits; }
+    constexpr void SetLimits(const Limits& limits) { m_limits = limits; }
 
     constexpr Optional<double> IntersectionDistance(const Ray& ray) const;
 

@@ -1,24 +1,20 @@
 #pragma once
 
-#include "Vector.hpp"
+#include "Box.hpp"
 
 class Limits
 {
 public:
-    constexpr Limits();
+    constexpr Limits() = default;
+    constexpr Limits(const Box& box)
+        : m_box(box)
+    {
+    }
 
-    constexpr void SetMinX(double value) { m_min.x = value; }
-    constexpr void SetMinY(double value) { m_min.y = value; }
-    constexpr void SetMinZ(double value) { m_min.z = value; }
-    constexpr void SetMaxX(double value) { m_max.x = value; }
-    constexpr void SetMaxY(double value) { m_max.y = value; }
-    constexpr void SetMaxZ(double value) { m_max.z = value; }
-
-    constexpr bool Contains(const Vector& point) const;
+    constexpr bool Contains(const Vector& point) const { return m_box.Contains(point); }
 
 private:
-    Vector m_min;
-    Vector m_max;
+    Box m_box;
 };
 
-#include "Limits.ipp"
+#include "Box.ipp"
