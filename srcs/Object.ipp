@@ -2,7 +2,7 @@ constexpr Object::Object(const Vector& position, const Matrix& rotation, const M
     : m_position(position)
     , m_rotation(rotation)
     , m_invertRotation(rotation.Invert())
-    , m_material(material)
+    , m_material(&material)
 {
 }
 

@@ -18,7 +18,7 @@ public:
     constexpr const Vector& GetPosition() const { return m_position; }
     constexpr const Matrix& GetRotation() const { return m_rotation; }
     constexpr const Matrix& GetInvertRotation() const { return m_invertRotation; }
-    constexpr const Material& GetMaterial() const { return m_material; }
+    constexpr const Material& GetMaterial() const { return *m_material; }
 
     constexpr void SetLimits(const Limits& limits) { m_limits = limits; }
 
@@ -36,7 +36,7 @@ private:
     Matrix m_rotation;
     Matrix m_invertRotation;
     Limits m_limits;
-    const Material& m_material;
+    const Material* m_material;
 };
 
 #include "Object.ipp"
