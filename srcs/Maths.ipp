@@ -54,25 +54,32 @@ constexpr double cos(double angle)
     return (sin(angle + _PI_2));
 }
 
-// Taylor's polynomial theorem with 5 iterations.
+// Maclaurin's series
 // https://en.wikipedia.org/wiki/Taylor_series#Approximation_error_and_convergence
+template <int N>
+constexpr double sin_taylor_polynomial(double angle)
+{
+    static_assert(N > 0);
+    constexpr int p = N * 2 + 1;
+    constexpr int sign = pow(-1, N);
+    const double iteration = sign * pow(angle, p) / fact(p);
+    return iteration + sin_taylor_polynomial<N - 1>(angle);
+}
+
+template <>
+constexpr double sin_taylor_polynomial<0>(double angle)
+{
+    return angle;
+}
+
 constexpr double sin(double angle)
 {
-    // set x between _PI and -_PI.
     while (angle < -_PI)
         angle += _2_PI;
     while (angle > _PI)
         angle -= _2_PI;
 
-    // clang-format off
-    return (angle
-            - pow(angle, 3) / fact(3)
-            + pow(angle, 5) / fact(5)
-            - pow(angle, 7) / fact(7)
-            + pow(angle, 9) / fact(9)
-            - pow(angle, 11) / fact(11)
-            );
-    // clang-format on
+    return sin_taylor_polynomial<5>(angle);
 }
 
 constexpr double acos(double number)
@@ -80,19 +87,26 @@ constexpr double acos(double number)
     return (_PI_2 - asin(number));
 }
 
+template <int N>
+constexpr double asin_taylor_polynomial(double angle)
+{
+    static_assert(N > 0);
+    constexpr int p = 2 * N + 1;
+    const double iteration = fact(2 * N) / (pow(4, N) * pow(fact(N), 2) * p) * pow(angle, p);
+    return iteration + asin_taylor_polynomial<N - 1>(angle);
+}
+
+template <>
+constexpr double asin_taylor_polynomial<0>(double angle)
+{
+    return angle;
+}
+
 // Will only work with number between -1 and 1 !
 // Here we use it only for UV functions.
 // Quite imprecise for number close of -1 or 1.
 constexpr double asin(double number)
 {
-    // clang-format off
-    return (number
-            + pow(number, 3) * 1.0 / 6.0
-            + pow(number, 5) * 3.0 / 40.0
-            + pow(number, 7) * 5.0 / 112.0
-            + pow(number, 9) * 35.0 / 1152.0
-            + pow(number, 11) * 63.0 / 2816.0
-            );
-    // clang-format on
+    return asin_taylor_polynomial<5>(number);
 }
 } // namespace Maths
