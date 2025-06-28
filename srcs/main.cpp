@@ -20,7 +20,7 @@ constexpr auto ProcessImage()
     constexpr Raytracer raytracer = Raytracer(scene.Objects(), scene.Lights());
     constexpr const Camera* camera = scene.GetCamera();
 
-    auto image = Image<imageWidth, imageHeight>();
+    auto image = new Image<imageWidth, imageHeight>();
     for (int y = 0; y < imageHeight; y++)
     {
         for (int x = 0; x < imageWidth; x++)
@@ -30,10 +30,12 @@ constexpr auto ProcessImage()
             const Ray ray = camera->GetRay(pixelX, pixelY);
             const Ray transformedRay = ray.Transform(-camera->Position(), camera->InvertRotation());
             const Color pixelColor = raytracer.ProjectRay(transformedRay);
-            image.SetPixel(x, y, pixelColor);
+            image->SetPixel(x, y, pixelColor);
         }
     }
-    return image.ToBitmapFile();
+    auto result = image->ToBitmapFile();
+    delete image;
+    return result;
 }
 
 int main(int argc, char** argv)
