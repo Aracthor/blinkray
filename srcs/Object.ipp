@@ -9,12 +9,20 @@ constexpr Object::Object(const Geometry& geometry, const Vector& position, const
 {
 }
 
-constexpr Optional<double> Object::IntersectionDistance(const Ray& ray) const
+constexpr Optional<Vector> Object::Intersection(const Ray& ray) const
 {
     const Geometry::DistancesPair distances = m_geometry->GetIntersectionDistances(ray);
-    if (distances.first && (!m_limits || m_limits->Contains(ray.AtDistance(*distances.first))))
-        return distances.first;
-    else if (distances.second && (!m_limits || m_limits->Contains(ray.AtDistance(*distances.second))))
-        return distances.second;
+    if (distances.first)
+    {
+        const Vector intersection = ray.AtDistance(*distances.first);
+        if (!m_limits || m_limits->Contains(intersection))
+            return intersection;
+    }
+    if (distances.second)
+    {
+        const Vector intersection = ray.AtDistance(*distances.second);
+        if (!m_limits || m_limits->Contains(intersection))
+            return intersection;
+    }
     return {};
 }

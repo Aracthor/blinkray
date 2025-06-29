@@ -23,7 +23,7 @@ public:
     constexpr const Matrix& GetInvertRotation() const { return m_invertRotation; }
     constexpr const Material& GetMaterial() const { return *m_material; }
 
-    constexpr Optional<double> IntersectionDistance(const Ray& ray) const;
+    constexpr Optional<Vector> Intersection(const Ray& ray) const;
 
 private:
     const Geometry* m_geometry;
