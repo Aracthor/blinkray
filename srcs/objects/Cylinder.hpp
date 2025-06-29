@@ -5,7 +5,8 @@
 class Cylinder final : public Object
 {
 public:
-    constexpr Cylinder(const Vector& position, const Matrix& repere, const Material& material, double radius);
+    constexpr Cylinder(const Vector& position, const Matrix& repere, const Material& material, double radius,
+                       const Limits* limits = nullptr);
 
     constexpr DistancesPair GetIntersectionDistances(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;

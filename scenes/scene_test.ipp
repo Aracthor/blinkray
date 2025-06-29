@@ -6,6 +6,7 @@
 #include "lights/AmbientLight.hpp"
 #include "lights/DirectionalLight.hpp"
 #include "lights/SpotLight.hpp"
+#include "limits/LimitInBox.hpp"
 #include "materials/Checkboard.hpp"
 #include "materials/SimpleColor.hpp"
 #include "objects/Cylinder.hpp"
@@ -22,15 +23,15 @@ constexpr SimpleColor checkboardBlack = SimpleColor(0.5, 1.0, Colors::black);
 constexpr Checkboard planeMat = Checkboard(&checkboardWhite, &checkboardBlack, 10.0);
 constexpr SimpleColor bCylindMat = SimpleColor(0.0, 0.5, Colors::blue);
 
-constexpr Sphere rSphere = []
+constexpr Box rSphereBox = []
 {
-    Sphere sphere(Vector(50.0, -20.0, -10.0), rSphereRepere, rSphereMat, 30.0);
     Box box;
     box.SetMinX(-15.0);
     box.SetMaxY(25.0);
-    sphere.SetLimits(Limits(box));
-    return sphere;
+    return box;
 }();
+constexpr LimitInBox rSphereLimits = LimitInBox(rSphereBox);
+constexpr Sphere rSphere = Sphere(Vector(50.0, -20.0, -10.0), rSphereRepere, rSphereMat, 30.0, &rSphereLimits);
 constexpr Plane plane = Plane(Vector(0.0, 0.0, -40.0), planeRepere, planeMat);
 constexpr Cylinder bCylinder = Cylinder(Vector(80.0, -80.0, 0.0), bCylindRepere, bCylindMat, 20.0);
 
