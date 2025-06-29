@@ -1,16 +1,18 @@
 #pragma once
 
-#include "Object.hpp"
+#include "Geometry.hpp"
 
-class Plane final : public Object
+class Sphere final : public Geometry
 {
 public:
-    constexpr Plane(const Vector& position, const Matrix& rotation, const Material& material,
-                    const Limits* limits = nullptr);
+    constexpr Sphere(double radius);
 
     constexpr DistancesPair GetIntersectionDistances(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;
     constexpr Coord2D GetUV(const Vector& position) const override;
+
+private:
+    double m_radiusSq;
 };
 
-#include "Plane.ipp"
+#include "Sphere.ipp"

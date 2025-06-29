@@ -1,13 +1,11 @@
 #include "Quadratic.hpp"
 
-constexpr Sphere::Sphere(const Vector& position, const Matrix& rotation, const Material& material, double radius,
-                         const Limits* limits)
-    : Object(position, rotation, material, limits)
-    , m_radiusSq(radius * radius)
+constexpr Sphere::Sphere(double radius)
+    : m_radiusSq(radius * radius)
 {
 }
 
-constexpr Object::DistancesPair Sphere::GetIntersectionDistances(const Ray& ray) const
+constexpr Geometry::DistancesPair Sphere::GetIntersectionDistances(const Ray& ray) const
 {
     const double a = ray.dir.x * ray.dir.x + ray.dir.y * ray.dir.y + ray.dir.z * ray.dir.z;
     const double b = 2 * (ray.origin.x * ray.dir.x + ray.origin.y * ray.dir.y + ray.origin.z * ray.dir.z);

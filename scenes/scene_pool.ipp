@@ -1,10 +1,10 @@
 #include "Scene.hpp"
 
 #include "cameras/PerspectiveCamera.hpp"
+#include "geometries/Plane.hpp"
 #include "lights/AmbientLight.hpp"
 #include "lights/SpotLight.hpp"
 #include "materials/Textured.hpp"
-#include "objects/Plane.hpp"
 
 #include "Image.hpp"
 
@@ -15,7 +15,8 @@ constexpr Matrix planeRepere;
 
 constexpr Textured planeMat(tile_square_pool_color_texture, 100.0, 0.0);
 
-constexpr Plane plane(Vector(0.0, 0.0, -50.0), planeRepere, planeMat);
+constexpr Plane planeGeom;
+constexpr Object plane(planeGeom, Vector(0.0, 0.0, -50.0), planeRepere, planeMat);
 
 constexpr AmbientLight ambientLight(Color(0.03, 0.03, 0.03, 1.0));
 constexpr SpotLight spotLight(Colors::white, Vector(0.0, 60.0, 40.0), 50.0);
@@ -27,7 +28,7 @@ constexpr PerspectiveCamera perspCamera(cameraPos, cameraMatrix, 80.0, 60.0, 50.
 constexpr auto CreateScene()
 {
     const std::array objects = {
-        (const Object*)&plane,
+        &plane,
     };
     const std::array lights = {
         (const Light*)&ambientLight,

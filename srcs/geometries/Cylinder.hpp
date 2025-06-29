@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Object.hpp"
+#include "Geometry.hpp"
 
-class Cylinder final : public Object
+class Cylinder final : public Geometry
 {
 public:
-    constexpr Cylinder(const Vector& position, const Matrix& repere, const Material& material, double radius,
-                       const Limits* limits = nullptr);
+    constexpr Cylinder(double radius);
 
     constexpr DistancesPair GetIntersectionDistances(const Ray& ray) const override;
     constexpr Vector GetNormal(const Vector& rayOrigin, const Vector& position) const override;

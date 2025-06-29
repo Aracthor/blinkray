@@ -1,15 +1,13 @@
 #include "Maths.hpp"
 #include "Quadratic.hpp"
 
-constexpr Cylinder::Cylinder(const Vector& position, const Matrix& rotation, const Material& material, double radius,
-                             const Limits* limits)
-    : Object(position, rotation, material, limits)
-    , m_radius(radius)
+constexpr Cylinder::Cylinder(double radius)
+    : m_radius(radius)
     , m_radiusSq(radius * radius)
 {
 }
 
-constexpr Object::DistancesPair Cylinder::GetIntersectionDistances(const Ray& ray) const
+constexpr Geometry::DistancesPair Cylinder::GetIntersectionDistances(const Ray& ray) const
 {
     const double a = ray.dir.x * ray.dir.x + ray.dir.y * ray.dir.y;
     const double b = 2 * (ray.origin.x * ray.dir.x + ray.origin.y * ray.dir.y);

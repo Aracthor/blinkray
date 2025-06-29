@@ -1,9 +1,4 @@
-constexpr Plane::Plane(const Vector& position, const Matrix& rotation, const Material& material, const Limits* limits)
-    : Object(position, rotation, material, limits)
-{
-}
-
-constexpr Object::DistancesPair Plane::GetIntersectionDistances(const Ray& ray) const
+constexpr Geometry::DistancesPair Plane::GetIntersectionDistances(const Ray& ray) const
 {
     if (ray.dir.z == 0.0)
         return {};
