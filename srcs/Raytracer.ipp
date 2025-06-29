@@ -14,8 +14,9 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
         const Material* material = intersection->material;
         const double albedo = material->GetAlbedo(intersection->uv);
-        const double opacity = material->GetOpacity(intersection->uv);
         const double surfaceColorRatio = 1.0 - albedo;
+        const Color objectColor = material->GetColor(intersection->uv) * surfaceColorRatio;
+        const double opacity = objectColor.a;
         if (albedo > 0.0)
         {
             // We slightly move the origin to be sure the object won't detect itself.
@@ -25,7 +26,6 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
             pixelColor += reflectedColor * albedo * opacity;
         }
 
-        const Color objectColor = material->GetColor(intersection->uv) * surfaceColorRatio;
         for (const Light* light : m_lights)
         {
             const double lightRatioToPoint = 1.0 - ShadowFromLight(*intersection, light);
@@ -85,7 +85,7 @@ constexpr double Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, d
         const double distanceSq = (lightIntersection->position - origin).LengthSq();
         if (distanceSq < maxDistanceSq)
         {
-            const double objectOpacity = lightIntersection->material->GetOpacity(lightIntersection->uv);
+            const double objectOpacity = lightIntersection->material->GetColor(lightIntersection->uv).a;
             const double objectTransparency = 1.0 - objectOpacity;
             shadow = objectOpacity;
             if (objectTransparency > 0.0)

@@ -15,11 +15,6 @@ public:
     }
 
     constexpr double GetAlbedo(Coord2D uv) const override { return m_albedo; }
-    constexpr double GetOpacity(Coord2D uv) const override
-    {
-        const Coord2D textureCoords = this->GetTextureUV(uv);
-        return m_color.GetPixel(textureCoords.x, textureCoords.y).a;
-    }
     constexpr Color GetColor(Coord2D uv) const override
     {
         const Coord2D textureCoords = this->GetTextureUV(uv);

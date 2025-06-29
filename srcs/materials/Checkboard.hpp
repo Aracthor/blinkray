@@ -13,7 +13,6 @@ public:
     }
 
     constexpr double GetAlbedo(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetAlbedo(uv); }
-    constexpr double GetOpacity(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetOpacity(uv); }
     constexpr Color GetColor(Coord2D uv) const override { return GetMaterialFromUV(uv)->GetColor(uv); }
 
 private:
