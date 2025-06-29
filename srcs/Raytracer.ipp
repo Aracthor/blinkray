@@ -12,9 +12,9 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     {
         const Vector position = intersection->position;
         const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
-        const Material& material = intersection->object->GetMaterial();
-        const double albedo = material.GetAlbedo(intersection->uv);
-        const double opacity = material.GetOpacity(intersection->uv);
+        const Material* material = intersection->material;
+        const double albedo = material->GetAlbedo(intersection->uv);
+        const double opacity = material->GetOpacity(intersection->uv);
         const double surfaceColorRatio = 1.0 - albedo;
         if (albedo > 0.0)
         {
@@ -25,7 +25,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
             pixelColor += reflectedColor * albedo * opacity;
         }
 
-        const Color objectColor = material.GetColor(intersection->uv) * surfaceColorRatio;
+        const Color objectColor = material->GetColor(intersection->uv) * surfaceColorRatio;
         for (const Light* light : m_lights)
         {
             const double lightRatioToPoint = 1.0 - ShadowFromLight(*intersection, light);
@@ -65,7 +65,7 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
             const Coord2D uv = object->GetUV(intersectionInRepere);
             const double distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                result = {intersectionPoint, normal, uv, object};
+                result = {intersectionPoint, normal, uv, &object->GetMaterial()};
         }
     }
     return result;
@@ -89,8 +89,7 @@ constexpr double Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, d
         const double distanceSq = (lightIntersection->position - origin).LengthSq();
         if (distanceSq < maxDistanceSq)
         {
-            const Material& objectMaterial = lightIntersection->object->GetMaterial();
-            const double objectOpacity = objectMaterial.GetOpacity(lightIntersection->uv);
+            const double objectOpacity = lightIntersection->material->GetOpacity(lightIntersection->uv);
             const double objectTransparency = 1.0 - objectOpacity;
             shadow = objectOpacity;
             if (objectTransparency > 0.0)

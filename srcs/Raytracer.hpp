@@ -2,6 +2,7 @@
 
 #include "Color.hpp"
 #include "Light.hpp"
+#include "Material.hpp"
 #include "Object.hpp"
 #include "Optional.hpp"
 #include "Ray.hpp"
@@ -20,7 +21,7 @@ private:
         Vector position{};
         Vector normal{};
         Coord2D uv{};
-        const Object* object{};
+        const Material* material{};
     };
 
     constexpr double ShadowFromLight(const Intersection& intersection, const Light* light) const;
