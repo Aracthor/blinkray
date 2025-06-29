@@ -17,7 +17,8 @@ constexpr Geometry::DistancesPair Sphere::GetIntersectionDistances(const Ray& ra
 constexpr Vector Sphere::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
     const double dotProduct = Vector::dot(rayOrigin - position, position);
-    return (dotProduct > 0.0) ? position : -position;
+    const Vector normal = (dotProduct > 0.0) ? position.Normalized() : -position.Normalized();
+    return normal.Normalized();
 }
 
 constexpr Coord2D Sphere::GetUV(const Vector& position) const

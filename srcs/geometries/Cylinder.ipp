@@ -18,7 +18,8 @@ constexpr Geometry::DistancesPair Cylinder::GetIntersectionDistances(const Ray& 
 constexpr Vector Cylinder::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
     const double dotProduct = Vector::dot(rayOrigin - position, position);
-    return dotProduct > 0.0 ? Vector(position.x, position.y, 0.0) : -Vector(position.x, position.y, 0.0);
+    const Vector normal = dotProduct > 0.0 ? Vector(position.x, position.y, 0.0) : -Vector(position.x, position.y, 0.0);
+    return normal.Normalized();
 }
 
 constexpr Coord2D Cylinder::GetUV(const Vector& position) const
