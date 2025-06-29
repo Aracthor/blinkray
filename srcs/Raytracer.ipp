@@ -57,9 +57,8 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
         const Optional<Object::Intersection> intersection = object->RayIntersection(rayInRepere);
         if (intersection)
         {
-            const Matrix rotation = object->GetRotation();
-            const Vector intersectionPoint = rotation * intersection->position + object->GetPosition();
-            const Vector normal = rotation * intersection->normal;
+            const Vector intersectionPoint = object->GetRotation() * intersection->position + object->GetPosition();
+            const Vector normal = object->GetRotation() * intersection->normal;
             const double distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
                 result = {intersectionPoint, normal, intersection->uv, &object->GetMaterial()};
