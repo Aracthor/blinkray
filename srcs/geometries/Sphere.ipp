@@ -14,6 +14,11 @@ constexpr Geometry::DistancesPair Sphere::GetIntersectionDistances(const Ray& ra
     return Quadratic::sortedPositiveResults(a, b, c);
 }
 
+constexpr bool Sphere::Contains(const Vector& point) const
+{
+    return point.LengthSq() < m_radiusSq;
+}
+
 constexpr Vector Sphere::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
     const double dotProduct = Vector::dot(rayOrigin - position, position);

@@ -15,6 +15,11 @@ constexpr Geometry::DistancesPair Cylinder::GetIntersectionDistances(const Ray& 
     return Quadratic::sortedPositiveResults(a, b, c);
 }
 
+constexpr bool Cylinder::Contains(const Vector& point) const
+{
+    return Vector(point.x, point.y, 0.f).LengthSq() < m_radiusSq;
+}
+
 constexpr Vector Cylinder::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
     const double dotProduct = Vector::dot(rayOrigin - position, position);

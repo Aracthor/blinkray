@@ -8,6 +8,11 @@ constexpr Geometry::DistancesPair Plane::GetIntersectionDistances(const Ray& ray
     return {Optional<double>(t), {}};
 }
 
+constexpr bool Plane::Contains(const Vector& point) const
+{
+    return false;
+}
+
 constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
     const double z = rayOrigin.z > 0.0 ? 1.0 : -1.0;
