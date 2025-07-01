@@ -14,6 +14,8 @@ struct Vector
     constexpr double Length() const;
     constexpr Vector Normalized() const;
 
+    constexpr Vector xy0() const;
+
     constexpr Vector operator-() const;
     constexpr Vector operator+(const Vector& other) const;
     constexpr Vector operator-(const Vector& other) const;

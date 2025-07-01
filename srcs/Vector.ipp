@@ -36,6 +36,11 @@ constexpr Vector Vector::Normalized() const
     return *this / Length();
 }
 
+constexpr Vector Vector::xy0() const
+{
+    return Vector(x, y, 0);
+}
+
 constexpr Vector Vector::operator-() const
 {
     return Vector(-x, -y, -z);

@@ -22,9 +22,9 @@ constexpr bool Cylinder::Contains(const Vector& point) const
 
 constexpr Vector Cylinder::GetNormal(const Vector& rayOrigin, const Vector& position) const
 {
-    const double dotProduct = Vector::dot(rayOrigin - position, position);
-    const Vector normal = dotProduct > 0.0 ? Vector(position.x, position.y, 0.0) : -Vector(position.x, position.y, 0.0);
-    return normal.Normalized();
+    const Vector normal = position.xy0();
+    const double dotProduct = Vector::dot(rayOrigin.xy0() - normal, normal);
+    return dotProduct > 0.0 ? normal.Normalized() : -normal.Normalized();
 }
 
 constexpr Coord2D Cylinder::GetUV(const Vector& position) const
