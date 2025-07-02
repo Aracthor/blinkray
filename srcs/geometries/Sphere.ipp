@@ -19,11 +19,9 @@ constexpr bool Sphere::Contains(const Vector& point) const
     return point.LengthSq() < m_radiusSq;
 }
 
-constexpr Vector Sphere::GetNormal(const Vector& rayOrigin, const Vector& position) const
+constexpr Vector Sphere::GetNormal(const Vector& position) const
 {
-    const double dotProduct = Vector::dot(rayOrigin - position, position);
-    const Vector normal = (dotProduct > 0.0) ? position.Normalized() : -position.Normalized();
-    return normal.Normalized();
+    return position.Normalized();
 }
 
 constexpr Coord2D Sphere::GetUV(const Vector& position) const

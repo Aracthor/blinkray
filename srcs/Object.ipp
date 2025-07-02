@@ -29,7 +29,8 @@ constexpr Optional<Object::Intersection> Object::RayIntersection(const Ray& ray)
 
 constexpr Object::Intersection Object::IntersectionData(const Vector& rayOrigin, const Vector& position) const
 {
-    const Vector normal = m_geometry->GetNormal(rayOrigin, position);
+    Vector normal = m_geometry->GetNormal(position);
+    normal = Vector::dot(normal, rayOrigin - position) > 0.0 ? normal : -normal;
     const Coord2D uv = m_geometry->GetUV(position);
     return {position, normal, uv};
 }

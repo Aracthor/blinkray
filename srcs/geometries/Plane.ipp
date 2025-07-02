@@ -13,10 +13,9 @@ constexpr bool Plane::Contains(const Vector& point) const
     return false;
 }
 
-constexpr Vector Plane::GetNormal(const Vector& rayOrigin, const Vector& position) const
+constexpr Vector Plane::GetNormal(const Vector& position) const
 {
-    const double z = rayOrigin.z > 0.0 ? 1.0 : -1.0;
-    return Vector(0.0, 0.0, z);
+    return Vector(0.0, 0.0, 1.0);
 }
 
 constexpr Coord2D Plane::GetUV(const Vector& position) const

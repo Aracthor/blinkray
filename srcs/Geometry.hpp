@@ -13,6 +13,6 @@ public:
     using DistancesPair = std::pair<Optional<double>, Optional<double>>;
     constexpr virtual DistancesPair GetIntersectionDistances(const Ray& ray) const = 0;
     constexpr virtual bool Contains(const Vector& point) const = 0;
-    constexpr virtual Vector GetNormal(const Vector& rayOrigin, const Vector& position) const = 0;
+    constexpr virtual Vector GetNormal(const Vector& position) const = 0;
     constexpr virtual Coord2D GetUV(const Vector& position) const = 0;
 };

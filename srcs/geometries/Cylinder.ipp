@@ -20,11 +20,9 @@ constexpr bool Cylinder::Contains(const Vector& point) const
     return Vector(point.x, point.y, 0.f).LengthSq() < m_radiusSq;
 }
 
-constexpr Vector Cylinder::GetNormal(const Vector& rayOrigin, const Vector& position) const
+constexpr Vector Cylinder::GetNormal(const Vector& position) const
 {
-    const Vector normal = position.xy0();
-    const double dotProduct = Vector::dot(rayOrigin.xy0() - normal, normal);
-    return dotProduct > 0.0 ? normal.Normalized() : -normal.Normalized();
+    return position.xy0().Normalized();
 }
 
 constexpr Coord2D Cylinder::GetUV(const Vector& position) const
