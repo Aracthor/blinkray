@@ -5,6 +5,11 @@
 class SimpleColor final : public Material
 {
 public:
+    constexpr SimpleColor(const Color& color)
+        : m_color(color)
+        , m_albedo(0.0)
+    {
+    }
     constexpr SimpleColor(const Color& color, double albedo)
         : m_color(color)
         , m_albedo(albedo)
