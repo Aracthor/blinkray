@@ -28,7 +28,9 @@ constexpr auto ProcessImage()
             const double pixelX = double(x - imageWidth / 2) / double(imageWidth);
             const double pixelY = double(imageHeight / 2 - y) / double(imageHeight);
             const Ray ray = camera->GetRay(pixelX, pixelY);
-            const Ray transformedRay = ray.Transform(-camera->Position(), camera->InvertRotation());
+            const Vector newPosition = camera->Rotation() * ray.origin + camera->Position();
+            const Vector newDirection = camera->Rotation() * ray.dir;
+            const Ray transformedRay(newPosition, newDirection);
             const Color pixelColor = raytracer.ProjectRay(transformedRay);
             image->SetPixel(x, y, pixelColor);
         }

@@ -58,8 +58,8 @@ constexpr Object plane(planeGeom, planePosition, planeRepere, planeMat, &outBowl
 constexpr AmbientLight ambientLight(Color(0.2, 0.2, 0.2, 1.0));
 constexpr SpotLight spotLight(Colors::white, Vector(0.0, -20.0, 60.0), 40.0);
 
-constexpr Vector cameraPos(-50.0, 0.0, 0.0);
-constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundY(Maths::degToRad(-25.0));
+constexpr Vector cameraPos(-50.0, 0.0, 20.0);
+constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundY(Maths::degToRad(25.0));
 constexpr PerspectiveCamera perspCamera(cameraPos, cameraMatrix, 80.0, 60.0, 50.0);
 
 constexpr auto CreateScene()
