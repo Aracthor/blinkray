@@ -75,3 +75,11 @@ constexpr Vector Vector::reflection(const Vector& dir, const Vector& normal)
 {
     return dir - normal * 2 * dot(dir, normal);
 }
+
+constexpr Optional<Vector> Vector::refraction(const Vector& dir, const Vector& normal, double refractiveRatio)
+{
+    const double k = 1.0 - Maths::pow(refractiveRatio, 2) * (1.0 - Maths::pow(dot(dir, normal), 2));
+    if (k <= 0.0)
+        return {};
+    return {dir * refractiveRatio - normal * (refractiveRatio * dot(dir, normal) + Maths::sqrt(k))};
+}

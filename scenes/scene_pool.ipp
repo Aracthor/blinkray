@@ -13,7 +13,7 @@ constexpr auto tile_square_pool_color_texture = ImageFromBitmapFile<tile_square_
 
 constexpr Matrix planeRepere;
 
-constexpr Textured planeMat(tile_square_pool_color_texture, 100.0, 0.0);
+constexpr Textured planeMat(tile_square_pool_color_texture, 100.0, 0.0, 1.0);
 
 constexpr Plane planeGeom;
 constexpr Object plane(planeGeom, Vector(0.0, 0.0, -50.0), planeRepere, planeMat);

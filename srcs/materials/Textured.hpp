@@ -7,14 +7,16 @@ template <int WIDTH, int HEIGHT>
 class Textured final : public Material
 {
 public:
-    constexpr Textured(const Image<WIDTH, HEIGHT>& color, double tiling, double albedo)
+    constexpr Textured(const Image<WIDTH, HEIGHT>& color, double tiling, double albedo, double refractiveIndex)
         : m_color(color)
         , m_tiling(tiling)
         , m_albedo(albedo)
+        , m_refractiveIndex(refractiveIndex)
     {
     }
 
     constexpr double GetAlbedo(Coord2D uv) const override { return m_albedo; }
+    constexpr double GetRefractiveIndex(Coord2D uv) const override { return m_refractiveIndex; }
     constexpr Color GetColor(Coord2D uv) const override
     {
         const Coord2D textureCoords = this->GetTextureUV(uv);
@@ -36,4 +38,5 @@ private:
     const Image<WIDTH, HEIGHT>& m_color;
     double m_tiling;
     double m_albedo;
+    double m_refractiveIndex;
 };

@@ -39,10 +39,15 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const double transparency = 1.0 - opacity;
         if (transparency > 0.0)
         {
-            // We slightly move the origin to be sure the object won't detect itself.
-            const Vector newRayStart = intersection->position + ray.dir * 0.01;
-            const Ray newRay = {newRayStart, ray.dir};
-            pixelColor += ProjectRay(newRay) * transparency;
+            const double refractiveRatio = 1.0 / material->GetRefractiveIndex(intersection->uv);
+            const Optional<Vector> newRayDir = Vector::refraction(ray.dir, intersection->normal, refractiveRatio);
+            if (newRayDir)
+            {
+                // We slightly move the origin to be sure the object won't detect itself.
+                const Vector newRayStart = intersection->position + ray.dir * 0.01;
+                const Ray newRay = {newRayStart, *newRayDir};
+                pixelColor += ProjectRay(newRay) * transparency;
+            }
         }
     }
     return pixelColor;

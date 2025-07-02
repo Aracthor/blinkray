@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Optional.hpp"
+
 struct Vector
 {
     double x;
@@ -24,6 +26,7 @@ struct Vector
 
     constexpr static double dot(const Vector& u, const Vector& v);
     constexpr static Vector reflection(const Vector& dir, const Vector& normal);
+    constexpr static Optional<Vector> refraction(const Vector& dir, const Vector& normal, double refractiveRatio);
 };
 
 #include "Vector.ipp"
