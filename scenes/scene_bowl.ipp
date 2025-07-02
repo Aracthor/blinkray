@@ -17,9 +17,9 @@ constexpr Matrix bowlRepere;
 constexpr Matrix bowlBottomRepere;
 constexpr Matrix planeRepere;
 
-constexpr SimpleColor bowlMat(0.0, Color(0.8, 0.5, 0.3, 1.0));
-constexpr SimpleColor checkboardWhite(0.0, Colors::white);
-constexpr SimpleColor checkboardBlack(0.0, Colors::black);
+constexpr SimpleColor bowlMat(Color(0.8, 0.5, 0.3, 1.0), 0.0);
+constexpr SimpleColor checkboardWhite(Colors::white, 0.0);
+constexpr SimpleColor checkboardBlack(Colors::black, 0.0);
 constexpr Checkboard planeMat(&checkboardWhite, &checkboardBlack, 10.0);
 
 constexpr Box bowlBox = []

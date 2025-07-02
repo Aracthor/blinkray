@@ -5,9 +5,9 @@
 class SimpleColor final : public Material
 {
 public:
-    constexpr SimpleColor(double albedo, const Color& color)
-        : m_albedo(albedo)
-        , m_color(color)
+    constexpr SimpleColor(const Color& color, double albedo)
+        : m_color(color)
+        , m_albedo(albedo)
     {
     }
 
@@ -15,6 +15,6 @@ public:
     constexpr Color GetColor(Coord2D uv) const override { return m_color; }
 
 private:
-    const double m_albedo;
     const Color m_color;
+    const double m_albedo;
 };

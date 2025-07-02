@@ -17,11 +17,11 @@ constexpr Matrix rSphereRepere;
 constexpr Matrix planeRepere;
 constexpr Matrix bCylindRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(0.0));
 
-constexpr SimpleColor rSphereMat(0.0, Colors::red);
-constexpr SimpleColor checkboardWhite(0.0, Colors::white);
-constexpr SimpleColor checkboardBlack(0.5, Colors::black);
+constexpr SimpleColor rSphereMat(Colors::red, 0.0);
+constexpr SimpleColor checkboardWhite(Colors::white, 0.0);
+constexpr SimpleColor checkboardBlack(Colors::black, 0.5);
 constexpr Checkboard planeMat(&checkboardWhite, &checkboardBlack, 10.0);
-constexpr SimpleColor bCylindMat(0.0, Color(0.0, 0.0, 1.0, 0.5));
+constexpr SimpleColor bCylindMat(Color(0.0, 0.0, 1.0, 0.5), 0.0);
 
 constexpr Box rSphereBox = []
 {
