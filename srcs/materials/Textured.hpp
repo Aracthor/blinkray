@@ -15,12 +15,11 @@ public:
     {
     }
 
-    constexpr double GetAlbedo(Coord2D uv) const override { return m_albedo; }
-    constexpr double GetRefractiveIndex(Coord2D uv) const override { return m_refractiveIndex; }
-    constexpr Color GetColor(Coord2D uv) const override
+    constexpr Surface GetSurface(Coord2D uv) const override
     {
         const Coord2D textureCoords = this->GetTextureUV(uv);
-        return m_color.GetPixel(textureCoords.x, textureCoords.y);
+        const Color color = m_color.GetPixel(textureCoords.x, textureCoords.y);
+        return {color, m_albedo, m_refractiveIndex};
     }
 
 private:

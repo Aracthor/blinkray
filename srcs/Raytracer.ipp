@@ -12,10 +12,10 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     {
         const Vector position = intersection->position;
         const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
-        const Material* material = intersection->material;
-        const double albedo = material->GetAlbedo(intersection->uv);
+        const Material::Surface materialSurface = intersection->material->GetSurface(intersection->uv);
+        const double albedo = materialSurface.albedo;
         const double surfaceColorRatio = 1.0 - albedo;
-        const Color objectColor = material->GetColor(intersection->uv) * surfaceColorRatio;
+        const Color objectColor = materialSurface.color * surfaceColorRatio;
         const double opacity = objectColor.a;
         if (albedo > 0.0)
         {
@@ -39,7 +39,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const double transparency = 1.0 - opacity;
         if (transparency > 0.0)
         {
-            const double refractiveRatio = 1.0 / material->GetRefractiveIndex(intersection->uv);
+            const double refractiveRatio = 1.0 / materialSurface.refractiveIndex;
             const Optional<Vector> newRayDir = Vector::refraction(ray.dir, intersection->normal, refractiveRatio);
             if (newRayDir)
             {
@@ -90,7 +90,7 @@ constexpr double Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, d
         const double distanceSq = (lightIntersection->position - origin).LengthSq();
         if (distanceSq < maxDistanceSq)
         {
-            const double objectOpacity = lightIntersection->material->GetColor(lightIntersection->uv).a;
+            const double objectOpacity = lightIntersection->material->GetSurface(lightIntersection->uv).color.a;
             const double objectTransparency = 1.0 - objectOpacity;
             shadow = objectOpacity;
             if (objectTransparency > 0.0)

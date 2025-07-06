@@ -6,7 +6,12 @@
 class Material
 {
 public:
-    virtual constexpr double GetAlbedo(Coord2D uv) const = 0;
-    virtual constexpr double GetRefractiveIndex(Coord2D uv) const = 0;
-    virtual constexpr Color GetColor(Coord2D uv) const = 0;
+    struct Surface
+    {
+        Color color;
+        double albedo;
+        double refractiveIndex;
+    };
+
+    virtual constexpr Surface GetSurface(Coord2D uv) const = 0;
 };
