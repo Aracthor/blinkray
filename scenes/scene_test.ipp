@@ -16,12 +16,15 @@
 constexpr Matrix rSphereRepere;
 constexpr Matrix planeRepere;
 constexpr Matrix bCylindRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(0.0));
+constexpr Matrix noRotation;
 
 constexpr SimpleColor rSphereMat(Colors::red);
 constexpr SimpleColor checkboardWhite(Colors::white);
 constexpr SimpleColor checkboardBlack(Colors::black, 0.5, 1.0);
 constexpr Checkboard planeMat(&checkboardWhite, &checkboardBlack, 10.0);
 constexpr SimpleColor bCylindMat(Color(0.0, 0.0, 1.0, 0.5));
+
+constexpr SimpleColor refractionMat(Colors::transparent, 0.0, 1.51);
 
 constexpr Box rSphereBox = []
 {
@@ -32,18 +35,20 @@ constexpr Box rSphereBox = []
 }();
 constexpr Sphere rSphereGeom(30.0);
 constexpr LimitInBox rSphereLimits(rSphereBox);
-constexpr Object rSphere(rSphereGeom, Vector(50.0, -20.0, -10.0), rSphereRepere, rSphereMat, &rSphereLimits);
+constexpr Object rSphere(rSphereGeom, Vector(50.0, -35.0, -10.0), rSphereRepere, rSphereMat, &rSphereLimits);
 constexpr Plane planeGeom;
 constexpr Object plane(planeGeom, Vector(0.0, 0.0, -40.0), planeRepere, planeMat);
 constexpr Cylinder bCylinderGeom(20.0);
-constexpr Object bCylinder(bCylinderGeom, Vector(80.0, -80.0, 0.0), bCylindRepere, bCylindMat);
+constexpr Object bCylinder(bCylinderGeom, Vector(80.0, 70.0, 0.0), bCylindRepere, bCylindMat);
+constexpr Sphere refractionSphereGeom(10.0);
+constexpr Object refractionSphere(refractionSphereGeom, Vector(-40.0, -30.0, 10.0), noRotation, refractionMat);
 
 constexpr AmbientLight ambientLight(Color(0.03, 0.03, 0.03, 1.0));
-constexpr DirectionalLight whiteDirLight(Color(0.2, 0.2, 0.2, 1.0), Vector(-0.1, 0.2, -0.8));
+constexpr DirectionalLight whiteDirLight(Color(0.2, 0.2, 0.2, 1.0), Vector(-0.1, -0.2, -0.6));
 constexpr SpotLight yellowSpotLight(Colors::yellow, Vector(0.0, 60.0, 40.0), 50.0);
 
-constexpr Vector cameraPos(-100.0, 0.0, 0.0);
-constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundX(Maths::degToRad(0.0));
+constexpr Vector cameraPos(-100.0, 0.0, 10.0);
+constexpr Matrix cameraMatrix = Matrix::RotationMatrixAroundY(Maths::degToRad(0.0));
 constexpr PerspectiveCamera perspCamera(cameraPos, cameraMatrix, 80.0, 60.0, 50.0);
 constexpr OrthographicCamera orthoCamera(cameraPos, cameraMatrix, 80.0, 60.0);
 
@@ -57,6 +62,7 @@ constexpr auto CreateScene()
         &rSphere,
         &plane,
         &bCylinder,
+        &refractionSphere,
     };
     const std::array lights = {
         (const Light*)&ambientLight,

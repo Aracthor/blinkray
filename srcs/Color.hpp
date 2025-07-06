@@ -37,6 +37,7 @@ constexpr Color blue = Color(0.0, 0.0, 1.0, 1.0);
 constexpr Color yellow = Color(1.0, 1.0, 0.0, 1.0);
 constexpr Color white = Color(1.0, 1.0, 1.0, 1.0);
 constexpr Color black = Color(0.0, 0.0, 0.0, 1.0);
+constexpr Color transparent = Color(0.0, 0.0, 0.0, 0.0);
 } // namespace Colors
 
 #include "Color.ipp"
