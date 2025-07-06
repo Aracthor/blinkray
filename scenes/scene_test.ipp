@@ -24,6 +24,7 @@ constexpr SimpleColor checkboardBlack(Colors::black, 0.5, 1.0);
 constexpr Checkboard planeMat(&checkboardWhite, &checkboardBlack, 10.0);
 constexpr SimpleColor bCylindMat(Color(0.0, 0.0, 1.0, 0.5));
 
+constexpr SimpleColor reflectionMat(Colors::black, 1.0, 1.0);
 constexpr SimpleColor refractionMat(Colors::transparent, 0.0, 1.51);
 
 constexpr Box rSphereBox = []
@@ -42,6 +43,8 @@ constexpr Cylinder bCylinderGeom(20.0);
 constexpr Object bCylinder(bCylinderGeom, Vector(80.0, 70.0, 0.0), bCylindRepere, bCylindMat);
 constexpr Sphere refractionSphereGeom(10.0);
 constexpr Object refractionSphere(refractionSphereGeom, Vector(-40.0, -30.0, 10.0), noRotation, refractionMat);
+constexpr Sphere reflectionSphereGeom(10.0);
+constexpr Object reflectionSphere(reflectionSphereGeom, Vector(10.0, 5.0, 10.0), noRotation, reflectionMat);
 
 constexpr AmbientLight ambientLight(Color(0.03, 0.03, 0.03, 1.0));
 constexpr DirectionalLight whiteDirLight(Color(0.2, 0.2, 0.2, 1.0), Vector(-0.1, -0.2, -0.6));
@@ -59,10 +62,7 @@ constexpr FishEyeCamera fishEyeCamera(cameraPos, cameraMatrix, azimuthAngle, sit
 constexpr auto CreateScene()
 {
     const std::array objects = {
-        &rSphere,
-        &plane,
-        &bCylinder,
-        &refractionSphere,
+        &rSphere, &plane, &bCylinder, &refractionSphere, &reflectionSphere,
     };
     const std::array lights = {
         (const Light*)&ambientLight,
