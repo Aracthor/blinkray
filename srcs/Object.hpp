@@ -27,6 +27,7 @@ public:
         Vector position;
         Vector normal;
         Coord2D uv;
+        bool entering;
     };
 
     constexpr Optional<Intersection> RayIntersection(const Ray& ray) const;

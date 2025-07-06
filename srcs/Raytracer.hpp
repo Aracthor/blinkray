@@ -22,6 +22,7 @@ private:
         Vector normal{};
         Coord2D uv{};
         const Material* material{};
+        bool entering{};
     };
 
     constexpr double ShadowFromLight(const Intersection& intersection, const Light* light) const;

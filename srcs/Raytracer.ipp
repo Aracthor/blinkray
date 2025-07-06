@@ -11,7 +11,8 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
     if (intersection)
     {
         const Vector position = intersection->position;
-        const Vector reflectionDirection = Vector::reflection(ray.dir, intersection->normal);
+        const Vector normal = intersection->entering ? intersection->normal : -intersection->normal;
+        const Vector reflectionDirection = Vector::reflection(ray.dir, normal);
         const Material::Surface materialSurface = intersection->material->GetSurface(intersection->uv);
         const double albedo = materialSurface.albedo;
         const double surfaceColorRatio = 1.0 - albedo;
@@ -30,7 +31,7 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         {
             const double lightRatioToPoint = 1.0 - ShadowFromLight(*intersection, light);
             const Color lightColor = light->GetColor();
-            const double lightPower = light->LightPower(intersection->position, intersection->normal);
+            const double lightPower = light->LightPower(intersection->position, normal);
             const double specularPower = light->SpecularPower(position, reflectionDirection);
             pixelColor += objectColor * lightColor * lightRatioToPoint * lightPower * opacity;
             pixelColor += lightColor * lightRatioToPoint * specularPower * opacity;
@@ -39,8 +40,9 @@ constexpr Color Raytracer::ProjectRay(const Ray& ray) const
         const double transparency = 1.0 - opacity;
         if (transparency > 0.0)
         {
-            const double refractiveRatio = 1.0 / materialSurface.refractiveIndex;
-            const Optional<Vector> newRayDir = Vector::refraction(ray.dir, intersection->normal, refractiveRatio);
+            const double refractiveRatio =
+                intersection->entering ? 1.0 / materialSurface.refractiveIndex : materialSurface.refractiveIndex;
+            const Optional<Vector> newRayDir = Vector::refraction(ray.dir, normal, refractiveRatio);
             if (newRayDir)
             {
                 // We slightly move the origin to be sure the object won't detect itself.
@@ -66,7 +68,7 @@ constexpr Optional<Raytracer::Intersection> Raytracer::ClosestIntersection(const
             const Vector normal = object->GetRotation() * intersection->normal;
             const double distanceSq = (ray.origin - intersectionPoint).LengthSq();
             if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                result = {intersectionPoint, normal, intersection->uv, &object->GetMaterial()};
+                result = {intersectionPoint, normal, intersection->uv, &object->GetMaterial(), intersection->entering};
         }
     }
     return result;
