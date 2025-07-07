@@ -9,22 +9,24 @@ constexpr Object::Object(const Geometry& geometry, const Vector& position, const
 {
 }
 
-constexpr Optional<Object::Intersection> Object::RayIntersection(const Ray& ray) const
+constexpr std::pair<Optional<Object::Intersection>, Optional<Object::Intersection>>
+Object::RayIntersection(const Ray& ray) const
 {
+    std::pair<Optional<Object::Intersection>, Optional<Object::Intersection>> result{};
     const Geometry::DistancesPair distances = m_geometry->GetIntersectionDistances(ray);
     if (distances.first)
     {
         const Vector intersection = ray.AtDistance(*distances.first);
         if (!m_limits || m_limits->Contains(intersection))
-            return IntersectionData(ray.origin, intersection);
+            result.first = IntersectionData(ray.origin, intersection);
     }
     if (distances.second)
     {
         const Vector intersection = ray.AtDistance(*distances.second);
         if (!m_limits || m_limits->Contains(intersection))
-            return IntersectionData(ray.origin, intersection);
+            result.second = IntersectionData(ray.origin, intersection);
     }
-    return {};
+    return result;
 }
 
 constexpr Object::Intersection Object::IntersectionData(const Vector& rayOrigin, const Vector& position) const

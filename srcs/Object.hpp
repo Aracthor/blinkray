@@ -30,7 +30,7 @@ public:
         bool entering;
     };
 
-    constexpr Optional<Intersection> RayIntersection(const Ray& ray) const;
+    constexpr std::pair<Optional<Intersection>, Optional<Intersection>> RayIntersection(const Ray& ray) const;
 
 private:
     constexpr Intersection IntersectionData(const Vector& rayOrigin, const Vector& position) const;
