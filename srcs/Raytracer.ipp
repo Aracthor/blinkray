@@ -99,23 +99,22 @@ constexpr double Raytracer::ShadowFromLight(const Intersection& intersection, co
 constexpr double Raytracer::ShadowForRay(const Ray& ray, const Vector& origin, double maxDistanceSq,
                                          const Optional<Intersection>& previousIntersection) const
 {
-    double shadow = 0.0;
     const Optional<Intersection> lightIntersection = ClosestIntersection(ray, previousIntersection);
-    if (lightIntersection)
+    if (!lightIntersection)
+        return 0.0;
+
+    const double distanceSq = (lightIntersection->position - origin).LengthSq();
+    if (distanceSq >= maxDistanceSq)
+        return 0.0;
+
+    const double objectOpacity = lightIntersection->object->GetMaterial().GetSurface(lightIntersection->uv).color.a;
+    const double objectTransparency = 1.0 - objectOpacity;
+    double shadow = objectOpacity;
+    if (objectTransparency > 0.0)
     {
-        const double distanceSq = (lightIntersection->position - origin).LengthSq();
-        if (distanceSq < maxDistanceSq)
-        {
-            const double objectOpacity =
-                lightIntersection->object->GetMaterial().GetSurface(lightIntersection->uv).color.a;
-            const double objectTransparency = 1.0 - objectOpacity;
-            shadow = objectOpacity;
-            if (objectTransparency > 0.0)
-            {
-                const Ray newRay = {lightIntersection->position, ray.dir};
-                shadow += ShadowForRay(newRay, origin, maxDistanceSq, lightIntersection) * objectTransparency;
-            }
-        }
+        const Ray newRay = {lightIntersection->position, ray.dir};
+        shadow += ShadowForRay(newRay, origin, maxDistanceSq, lightIntersection) * objectTransparency;
     }
+
     return shadow;
 }
