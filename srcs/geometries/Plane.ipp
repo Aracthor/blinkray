@@ -1,6 +1,6 @@
 constexpr Geometry::DistancesPair Plane::GetIntersectionDistances(const Ray& ray) const
 {
-    if (ray.dir.z == 0.0)
+    if (std::abs(ray.dir.z) <= 0.001)
         return {};
     const double t = -ray.origin.z / ray.dir.z;
     if (t <= 0)
