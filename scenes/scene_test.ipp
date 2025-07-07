@@ -13,9 +13,6 @@
 #include "materials/Checkboard.hpp"
 #include "materials/SimpleColor.hpp"
 
-constexpr Matrix rSphereRepere;
-constexpr Matrix planeRepere;
-constexpr Matrix bCylindRepere = Matrix::RotationMatrixAroundX(Maths::degToRad(0.0));
 constexpr Matrix noRotation;
 
 constexpr SimpleColor rSphereMat(Colors::red);
@@ -36,11 +33,11 @@ constexpr Box rSphereBox = []
 }();
 constexpr Sphere rSphereGeom(30.0);
 constexpr LimitInBox rSphereLimits(rSphereBox);
-constexpr Object rSphere(rSphereGeom, Vector(50.0, -35.0, -10.0), rSphereRepere, rSphereMat, &rSphereLimits);
+constexpr Object rSphere(rSphereGeom, Vector(50.0, -35.0, -10.0), noRotation, rSphereMat, &rSphereLimits);
 constexpr Plane planeGeom;
-constexpr Object plane(planeGeom, Vector(0.0, 0.0, -40.0), planeRepere, planeMat);
+constexpr Object plane(planeGeom, Vector(0.0, 0.0, -40.0), noRotation, planeMat);
 constexpr Cylinder bCylinderGeom(20.0);
-constexpr Object bCylinder(bCylinderGeom, Vector(80.0, 70.0, 0.0), bCylindRepere, bCylindMat);
+constexpr Object bCylinder(bCylinderGeom, Vector(80.0, 70.0, 0.0), noRotation, bCylindMat);
 constexpr Sphere refractionSphereGeom(10.0);
 constexpr Object refractionSphere(refractionSphereGeom, Vector(-40.0, -30.0, 10.0), noRotation, refractionMat);
 constexpr Sphere reflectionSphereGeom(10.0);
