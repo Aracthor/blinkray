@@ -63,20 +63,23 @@ Raytracer::ClosestIntersection(const Ray& ray, const Optional<Intersection>& pre
     for (const Object* object : m_objects)
     {
         const Ray rayInRepere = ray.Transform(object->GetPosition(), object->GetInvertRotation());
-        const std::pair<Optional<Object::Intersection>, Optional<Object::Intersection>> intersections =
-            object->RayIntersection(rayInRepere);
-        for (const Optional<Object::Intersection>& intersection : {intersections.first, intersections.second})
+        const std::pair<Optional<Vector>, Optional<Vector>> intersections = object->RayIntersection(rayInRepere);
+        for (const Optional<Vector>& intersection : {intersections.first, intersections.second})
         {
             if (intersection)
             {
-                const Vector intersectionPoint = object->GetRotation() * intersection->position + object->GetPosition();
+                const Vector intersectionPoint = object->GetRotation() * *intersection + object->GetPosition();
                 if (!previousIntersection || previousIntersection->object != object ||
                     (previousIntersection->position - intersectionPoint).LengthSq() > 0.01)
                 {
-                    const Vector normal = object->GetRotation() * intersection->normal;
+                    const Vector objectNormal = object->GetGeometry().GetNormal(*intersection);
+                    const Coord2D uv = object->GetGeometry().GetUV(*intersection);
+                    const bool entering = Vector::dot(objectNormal, rayInRepere.origin - *intersection) > 0.0;
+
+                    const Vector normal = object->GetRotation() * objectNormal;
                     const double distanceSq = (ray.origin - intersectionPoint).LengthSq();
                     if (!result || distanceSq < (ray.origin - result->position).LengthSq())
-                        result = {intersectionPoint, normal, intersection->uv, object, intersection->entering};
+                        result = {intersectionPoint, normal, uv, object, entering};
                 }
             }
         }
