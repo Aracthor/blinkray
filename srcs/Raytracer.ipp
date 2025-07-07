@@ -32,7 +32,7 @@ constexpr Color Raytracer::ColorForRay(const Ray& ray, const Optional<Intersecti
 
         for (const Light* light : m_lights)
         {
-            const double lightRatioToPoint = 1.0 - ShadowFromLight(*intersection, light);
+            const double lightRatioToPoint = 1.0 - ShadowFromLight(intersection->position, light);
             const Color lightColor = light->GetColor();
             const double lightPower = light->LightPower(intersection->position, normal);
             const double specularPower = light->SpecularPower(position, reflectionDirection);
@@ -87,9 +87,9 @@ Raytracer::ClosestIntersection(const Ray& ray, const Optional<Intersection>& pre
     return result;
 }
 
-constexpr double Raytracer::ShadowFromLight(const Intersection& intersection, const Light* light) const
+constexpr double Raytracer::ShadowFromLight(const Vector& position, const Light* light) const
 {
-    const Optional<Light::RayForShadow> rayForShadow = light->RayToPosition(intersection.position);
+    const Optional<Light::RayForShadow> rayForShadow = light->RayToPosition(position);
     if (!rayForShadow)
         return 0.0;
 

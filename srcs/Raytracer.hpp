@@ -27,7 +27,7 @@ private:
 
     constexpr Color ColorForRay(const Ray& ray, const Optional<Intersection>& previousIntersection) const;
 
-    constexpr double ShadowFromLight(const Intersection& intersection, const Light* light) const;
+    constexpr double ShadowFromLight(const Vector& position, const Light* light) const;
     constexpr double ShadowForRay(const Ray& ray, const Vector& origin, double maxDistanceSq,
                                   const Optional<Intersection>& previousIntersection) const;
 
