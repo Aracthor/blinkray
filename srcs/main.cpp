@@ -10,8 +10,15 @@
 #include SCENE_FILE
 #endif
 
-constexpr int imageWidth = 80;
-constexpr int imageHeight = 60;
+#ifndef IMAGE_WIDTH
+#define IMAGE_WIDTH 800
+#endif
+#ifndef IMAGE_HEIGHT
+#define IMAGE_HEIGHT 600
+#endif
+
+constexpr int imageWidth = IMAGE_WIDTH;
+constexpr int imageHeight = IMAGE_HEIGHT;
 
 constexpr Scene scene = CreateScene();
 
