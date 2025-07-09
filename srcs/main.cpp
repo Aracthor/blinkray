@@ -16,13 +16,18 @@
 #ifndef IMAGE_HEIGHT
 #define IMAGE_HEIGHT 600
 #endif
+#ifdef FULL_CONSTEXPR
+#define CONSTEXPR constexpr
+#else
+#define CONSTEXPR
+#endif
 
 constexpr int imageWidth = IMAGE_WIDTH;
 constexpr int imageHeight = IMAGE_HEIGHT;
 
 constexpr Scene scene = CreateScene();
 
-constexpr auto ProcessImage()
+CONSTEXPR auto ProcessImage()
 {
     constexpr Raytracer raytracer = Raytracer(scene.Objects(), scene.Lights());
     constexpr const Camera* camera = scene.GetCamera();
@@ -49,7 +54,7 @@ constexpr auto ProcessImage()
 
 int main(int argc, char** argv)
 {
-    constexpr auto imageFile = ProcessImage();
+    CONSTEXPR auto imageFile = ProcessImage();
     const ssize_t writed = write(STDOUT_FILENO, imageFile.data(), imageFile.size());
     if (writed != static_cast<ssize_t>(imageFile.size()))
         return 1;
